@@ -65,6 +65,9 @@ export default function SignupPage() {
             {loading ? 'Signing up...' : 'Sign Up'}
           </button>
         </form>
+        <p className="mt-4 text-sm text-gray-500">
+          We&apos;ll send you a confirmation email — check your inbox after signing up.
+        </p>
         <p className="mt-4 text-sm text-foreground">
           Already have an account?{' '}
           <a href="/login" className="text-navy underline">
