@@ -18,10 +18,7 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     setLoading(false)
 
@@ -34,32 +31,46 @@ export default function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
+    <div className="flex min-h-screen items-center justify-center bg-background px-6">
+      <div className="w-full max-w-sm rounded-lg bg-card p-8 shadow-sm">
+        <h1 className="mb-6 text-2xl font-bold text-navy">Login</h1>
+        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+          <div>
+            <label className="mb-1 block text-sm text-foreground">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm text-foreground">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+            />
+          </div>
+          {error && <p className="text-sm text-alert">{error}</p>}
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-2 rounded-md bg-navy px-4 py-2 text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
+        <p className="mt-4 text-sm text-foreground">
+          Don&apos;t have an account?{' '}
+          <a href="/signup" className="text-navy underline">
+            Sign Up
+          </a>
+        </p>
+      </div>
     </div>
   )
 }

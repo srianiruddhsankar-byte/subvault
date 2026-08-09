@@ -11,10 +11,22 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <p>{user.email}</p>
-      <LogoutButton />
+    <div className="min-h-screen bg-background">
+      <nav className="bg-navy px-6 py-4 text-white">
+        <div className="mx-auto flex max-w-4xl gap-6">
+          <a href="/dashboard" className="hover:underline">Dashboard</a>
+          <a href="/subscriptions" className="hover:underline">Subscriptions</a>
+          <a href="/profile" className="font-semibold underline">Profile</a>
+        </div>
+      </nav>
+
+      <div className="mx-auto max-w-4xl px-6 py-10">
+        <div className="max-w-sm rounded-lg bg-card p-8 shadow-sm">
+          <h1 className="mb-4 text-2xl font-bold text-navy">Profile</h1>
+          <p className="mb-6 text-foreground">{user.email}</p>
+          <LogoutButton />
+        </div>
+      </div>
     </div>
   )
 }

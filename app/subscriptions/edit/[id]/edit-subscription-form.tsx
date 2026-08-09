@@ -53,51 +53,66 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-lg bg-card p-8 shadow-sm">
       <div>
-        <label>Service Name</label>
+        <label className="mb-1 block text-sm text-foreground">Service Name</label>
         <input
           type="text"
           value={serviceName}
           onChange={(e) => setServiceName(e.target.value)}
           required
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         />
       </div>
       <div>
-        <label>Price</label>
+        <label className="mb-1 block text-sm text-foreground">Price</label>
         <input
           type="number"
           step="0.01"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         />
       </div>
       <div>
-        <label>Billing Cycle</label>
-        <select value={billingCycle} onChange={(e) => setBillingCycle(e.target.value)}>
+        <label className="mb-1 block text-sm text-foreground">Billing Cycle</label>
+        <select
+          value={billingCycle}
+          onChange={(e) => setBillingCycle(e.target.value)}
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+        >
           <option value="Monthly">Monthly</option>
           <option value="Yearly">Yearly</option>
         </select>
       </div>
       <div>
-        <label>Renewal Date</label>
+        <label className="mb-1 block text-sm text-foreground">Renewal Date</label>
         <input
           type="date"
           value={renewalDate}
           onChange={(e) => setRenewalDate(e.target.value)}
           required
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         />
       </div>
       <div>
-        <label>Status</label>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <label className="mb-1 block text-sm text-foreground">Status</label>
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+        >
           <option value="Active">Active</option>
           <option value="Cancelled">Cancelled</option>
         </select>
       </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit" disabled={loading}>
+      {error && <p className="text-sm text-alert">{error}</p>}
+      <button
+        type="submit"
+        disabled={loading}
+        className="mt-2 rounded-md bg-navy px-4 py-2 text-white hover:opacity-90 disabled:opacity-50"
+      >
         {loading ? 'Saving...' : 'Save'}
       </button>
     </form>
