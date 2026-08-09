@@ -19,7 +19,6 @@ export default function SignupPage() {
     setLoading(true)
 
     const { error } = await supabase.auth.signUp({ email, password })
-    console.log('SIGNUP RESULT ERROR:', error)
 
     setLoading(false)
 
