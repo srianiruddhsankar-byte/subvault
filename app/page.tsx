@@ -17,6 +17,9 @@ export default function Home() {
           Login
         </a>
       </div>
+    <p className="absolute bottom-6 text-sm text-gray-400">
+        by ForgeLabs
+      </p>
     </div>
   )
 }

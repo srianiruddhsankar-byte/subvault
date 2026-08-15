@@ -35,7 +35,14 @@ export default async function DashboardPage() {
       </nav>
 
       <div className="mx-auto max-w-4xl px-6 py-10">
-        <h1 className="mb-6 text-2xl font-bold text-navy">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-navy">Dashboard</h1>
+        <p className="mb-6 text-sm text-gray-500">
+          Track your subscriptions and see what you&apos;re spending. Head to{' '}
+          <a href="/subscriptions" className="text-navy underline">
+            Subscriptions
+          </a>{' '}
+          to add your first one.
+        </p>
 
         <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <div className="rounded-lg bg-card p-4 shadow-sm">
@@ -55,6 +62,18 @@ export default async function DashboardPage() {
             <p className="text-xl font-bold text-navy">{upcoming.length}</p>
           </div>
         </div>
+
+        {subs.length === 0 && (
+          <div className="mb-8 rounded-lg border border-dashed border-navy/30 bg-card p-6 text-center">
+            <p className="text-foreground">You haven&apos;t added any subscriptions yet.</p>
+            <a
+              href="/subscriptions"
+              className="mt-2 inline-block rounded-md bg-navy px-4 py-2 text-sm text-white hover:opacity-90"
+            >
+              Add your first subscription
+            </a>
+          </div>
+        )}
 
         <h2 className="mb-4 text-lg font-semibold text-navy">Upcoming Renewals</h2>
         {upcoming.length > 0 ? (
