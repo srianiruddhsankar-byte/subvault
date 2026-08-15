@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Wallet } from 'lucide-react'
 import { createClient } from '@/lib/supabase-server'
+import UserMenu from '@/components/UserMenu'
 import {
   calculateMonthlySpending,
   calculateYearlySpending,
@@ -32,18 +33,16 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <nav className="bg-navy px-6 py-4 text-white">
-        <div className="mx-auto flex max-w-4xl items-center justify-between">
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <Wallet className="h-5 w-5" />
-            <span className="font-bold">SubVault</span>
-          </Link>
-          <div className="flex gap-6">
-            <Link href="/dashboard" className="font-semibold underline">Dashboard</Link>
-            <Link href="/subscriptions" className="hover:underline">Subscriptions</Link>
-            <Link href="/profile" className="hover:underline">Profile</Link>
-          </div>
+      <nav className="relative flex items-center justify-between bg-navy px-6 py-4 text-white">
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <Wallet className="h-5 w-5" />
+          <span className="font-bold">SubVault</span>
+        </Link>
+        <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-6">
+          <Link href="/dashboard" className="font-semibold underline">Dashboard</Link>
+          <Link href="/subscriptions" className="hover:underline">Subscriptions</Link>
         </div>
+        <UserMenu email={user.email!} />
       </nav>
 
       <div className="mx-auto w-full max-w-4xl flex-1 px-6 py-10">
