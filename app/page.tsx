@@ -1,4 +1,5 @@
 import { Wallet } from 'lucide-react'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
@@ -30,9 +31,7 @@ export default function Home() {
           Login
         </a>
       </div>
-      <p className="absolute bottom-6 text-sm text-gray-400">
-        by ForgeLabs
-      </p>
+      <Footer />
     </div>
   )
 }
