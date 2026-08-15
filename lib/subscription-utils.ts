@@ -34,3 +34,12 @@ export function getUpcomingRenewals(subs: Subscription[], limit = 5) {
     .sort((a, b) => new Date(a.renewal_date).getTime() - new Date(b.renewal_date).getTime())
     .slice(0, limit)
 }
+export function getSpendingBreakdown(subs: Subscription[]) {
+  return subs
+    .filter((s) => s.status === 'Active')
+    .map((s) => ({
+      name: s.service_name,
+      monthly: s.billing_cycle === 'Yearly' ? s.price / 12 : s.price,
+    }))
+    .sort((a, b) => b.monthly - a.monthly)
+}

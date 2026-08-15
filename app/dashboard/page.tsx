@@ -6,8 +6,10 @@ import {
   calculateMonthlySpending,
   calculateYearlySpending,
   getUpcomingRenewals,
+  getSpendingBreakdown,
 } from '@/lib/subscription-utils'
 import Footer from '@/components/Footer'
+import SpendingChart from '@/components/SpendingChart'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -26,6 +28,7 @@ export default async function DashboardPage() {
   const yearlySpending = calculateYearlySpending(subs)
   const activeCount = subs.filter((s) => s.status === 'Active').length
   const upcoming = getUpcomingRenewals(subs)
+  const spendingBreakdown = getSpendingBreakdown(subs)
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -71,6 +74,12 @@ export default async function DashboardPage() {
             <p className="text-xl font-bold text-navy">{upcoming.length}</p>
           </div>
         </div>
+
+        {spendingBreakdown.length > 0 && (
+          <div className="mb-8">
+            <SpendingChart data={spendingBreakdown} />
+          </div>
+        )}
 
         {subs.length === 0 && (
           <div className="mb-8 rounded-lg border border-dashed border-navy/30 bg-card p-6 text-center">
