@@ -86,6 +86,7 @@ export default function AddSubscriptionForm() {
     }
 
     router.push('/subscriptions')
+    router.refresh()
   }
 
   return (

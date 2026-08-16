@@ -59,6 +59,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
     }
 
     router.push('/subscriptions')
+    router.refresh()
   }
 
   return (
