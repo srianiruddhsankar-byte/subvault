@@ -3,14 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 
-type Subscription = {
-  id: string
-  service_name: string
-  price: number
-  billing_cycle: string
-  renewal_date: string
-  status: string
-}
+import type { Subscription } from '@/lib/types'
 
 export default function SubscriptionCard({ sub }: { sub: Subscription }) {
   const router = useRouter()
