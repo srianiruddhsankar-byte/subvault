@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase-server'
 import LogoutButton from './logout-button'
+import CurrencySelector from './currency-selector'
 
 export default async function ProfilePage() {
   const supabase = await createClient()
@@ -9,6 +10,8 @@ export default async function ProfilePage() {
   if (!user) {
     redirect('/login')
   }
+
+  const currentCurrency = user.user_metadata?.currency || 'INR'
 
   return (
     <div className="min-h-screen bg-background">
@@ -24,7 +27,10 @@ export default async function ProfilePage() {
         <div className="max-w-sm rounded-lg bg-card p-8 shadow-sm">
           <h1 className="mb-4 text-2xl font-bold text-navy">Profile</h1>
           <p className="mb-6 text-foreground">{user.email}</p>
-          <LogoutButton />
+          <CurrencySelector currentCurrency={currentCurrency} />
+          <div className="mt-6">
+            <LogoutButton />
+          </div>
         </div>
       </div>
     </div>
