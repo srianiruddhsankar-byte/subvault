@@ -9,6 +9,7 @@ import Footer from '@/components/Footer'
 export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -18,6 +19,12 @@ export default function SignupPage() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
+
     setLoading(true)
 
     const { error } = await supabase.auth.signUp({ email, password })
@@ -25,7 +32,11 @@ export default function SignupPage() {
     setLoading(false)
 
     if (error) {
-      setError(error.message)
+      if (error.message.toLowerCase().includes('already registered')) {
+        setError('An account with this email already exists. Try logging in instead.')
+      } else {
+        setError(error.message)
+      }
       return
     }
 
@@ -59,6 +70,17 @@ export default function SignupPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 transition focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm text-foreground">Confirm Password</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 minLength={6}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 transition focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy"

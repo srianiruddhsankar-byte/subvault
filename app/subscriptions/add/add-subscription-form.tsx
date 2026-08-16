@@ -16,9 +16,40 @@ export default function AddSubscriptionForm() {
   const router = useRouter()
   const supabase = createClient()
 
+  const validate = (): string | null => {
+    if (!serviceName.trim()) {
+      return 'Service name is required.'
+    }
+
+    const parsedPrice = parseFloat(price)
+    if (isNaN(parsedPrice) || parsedPrice <= 0) {
+      return 'Price must be a positive number.'
+    }
+
+    if (!renewalDate) {
+      return 'Renewal date is required.'
+    }
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const selectedDate = new Date(renewalDate)
+    if (selectedDate < today) {
+      return 'Renewal date cannot be in the past.'
+    }
+
+    return null
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+
+    const validationError = validate()
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
     setLoading(true)
 
     const { data: { user } } = await supabase.auth.getUser()
@@ -31,7 +62,7 @@ export default function AddSubscriptionForm() {
 
     const { error } = await supabase.from('subscriptions').insert({
       user_id: user.id,
-      service_name: serviceName,
+      service_name: serviceName.trim(),
       price: parseFloat(price),
       billing_cycle: billingCycle,
       renewal_date: renewalDate,
@@ -41,7 +72,7 @@ export default function AddSubscriptionForm() {
     setLoading(false)
 
     if (error) {
-      setError(error.message)
+      setError('Something went wrong saving your subscription. Please try again.')
       return
     }
 
@@ -65,6 +96,7 @@ export default function AddSubscriptionForm() {
         <input
           type="number"
           step="0.01"
+          min="0.01"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
