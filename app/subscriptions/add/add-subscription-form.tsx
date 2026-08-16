@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import ServiceAutocomplete from '@/components/ServiceAutocomplete'
+import { KnownService } from '@/lib/search-services'
 
 export default function AddSubscriptionForm() {
   const [serviceName, setServiceName] = useState('')
@@ -15,6 +17,13 @@ export default function AddSubscriptionForm() {
 
   const router = useRouter()
   const supabase = createClient()
+
+  const handleServiceSelect = (service: KnownService) => {
+    setServiceName(service.name)
+    if (service.avgPrice > 0) {
+      setPrice(service.avgPrice.toString())
+    }
+  }
 
   const validate = (): string | null => {
     if (!serviceName.trim()) {
@@ -83,12 +92,10 @@ export default function AddSubscriptionForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-lg bg-card p-8 shadow-sm">
       <div>
         <label className="mb-1 block text-sm text-foreground">Service Name</label>
-        <input
-          type="text"
+        <ServiceAutocomplete
           value={serviceName}
-          onChange={(e) => setServiceName(e.target.value)}
-          required
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+          onChange={setServiceName}
+          onSelect={handleServiceSelect}
         />
       </div>
       <div>

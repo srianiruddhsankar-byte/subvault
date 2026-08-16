@@ -1,0 +1,723 @@
+[
+  {
+    "name": "1Password",
+    "category": "Security",
+    "avgPrice": 249,
+    "color": "#1A285F",
+    "initial": "1"
+  },
+  {
+    "name": "ACT Fibernet",
+    "category": "Internet",
+    "avgPrice": 799,
+    "color": "#F7941D",
+    "initial": "A"
+  },
+  {
+    "name": "Adobe Creative Cloud",
+    "category": "Design",
+    "avgPrice": 1675,
+    "color": "#DA1F26",
+    "initial": "A"
+  },
+  {
+    "name": "Aha",
+    "category": "Streaming",
+    "avgPrice": 149,
+    "color": "#EA1B23",
+    "initial": "A"
+  },
+  {
+    "name": "Airtel Broadband",
+    "category": "Internet",
+    "avgPrice": 999,
+    "color": "#ED1C24",
+    "initial": "A"
+  },
+  {
+    "name": "Airtel Postpaid",
+    "category": "Mobile",
+    "avgPrice": 399,
+    "color": "#ED1C24",
+    "initial": "A"
+  },
+  {
+    "name": "Airtel Xstream",
+    "category": "Streaming",
+    "avgPrice": 149,
+    "color": "#ED1C24",
+    "initial": "A"
+  },
+  {
+    "name": "Amazon Music",
+    "category": "Music",
+    "avgPrice": 99,
+    "color": "#1EC0C7",
+    "initial": "A"
+  },
+  {
+    "name": "Amazon Prime",
+    "category": "Shopping",
+    "avgPrice": 1499,
+    "color": "#00A8E1",
+    "initial": "A"
+  },
+  {
+    "name": "Amazon Prime Video",
+    "category": "Streaming",
+    "avgPrice": 299,
+    "color": "#00A8E1",
+    "initial": "P"
+  },
+  {
+    "name": "Apple iCloud+",
+    "category": "Cloud Storage",
+    "avgPrice": 75,
+    "color": "#3693F3",
+    "initial": "I"
+  },
+  {
+    "name": "Apple Music",
+    "category": "Music",
+    "avgPrice": 99,
+    "color": "#FA243C",
+    "initial": "A"
+  },
+  {
+    "name": "Apple One",
+    "category": "Bundle",
+    "avgPrice": 195,
+    "color": "#000000",
+    "initial": "A"
+  },
+  {
+    "name": "Apple TV+",
+    "category": "Streaming",
+    "avgPrice": 99,
+    "color": "#000000",
+    "initial": "A"
+  },
+  {
+    "name": "Audible",
+    "category": "Books",
+    "avgPrice": 199,
+    "color": "#FF9900",
+    "initial": "A"
+  },
+  {
+    "name": "AWS",
+    "category": "Developer Tools",
+    "avgPrice": 0,
+    "color": "#FF9900",
+    "initial": "A"
+  },
+  {
+    "name": "Blinkit",
+    "category": "Delivery",
+    "avgPrice": 0,
+    "color": "#F9D923",
+    "initial": "B"
+  },
+  {
+    "name": "Calm",
+    "category": "Wellness",
+    "avgPrice": 999,
+    "color": "#3F51B5",
+    "initial": "C"
+  },
+  {
+    "name": "Canva Pro",
+    "category": "Design",
+    "avgPrice": 499,
+    "color": "#00C4CC",
+    "initial": "C"
+  },
+  {
+    "name": "ChatGPT Plus",
+    "category": "AI Tools",
+    "avgPrice": 1999,
+    "color": "#10A37F",
+    "initial": "C"
+  },
+  {
+    "name": "Claude Pro",
+    "category": "AI Tools",
+    "avgPrice": 1670,
+    "color": "#D97757",
+    "initial": "C"
+  },
+  {
+    "name": "Coursera Plus",
+    "category": "Education",
+    "avgPrice": 3500,
+    "color": "#0056D2",
+    "initial": "C"
+  },
+  {
+    "name": "CRED",
+    "category": "Finance",
+    "avgPrice": 0,
+    "color": "#1C1C1E",
+    "initial": "C"
+  },
+  {
+    "name": "Crunchyroll",
+    "category": "Streaming",
+    "avgPrice": 599,
+    "color": "#F47521",
+    "initial": "C"
+  },
+  {
+    "name": "Cult.fit",
+    "category": "Fitness",
+    "avgPrice": 999,
+    "color": "#FF3278",
+    "initial": "C"
+  },
+  {
+    "name": "DigitalOcean",
+    "category": "Developer Tools",
+    "avgPrice": 500,
+    "color": "#0080FF",
+    "initial": "D"
+  },
+  {
+    "name": "Discovery+",
+    "category": "Streaming",
+    "avgPrice": 299,
+    "color": "#1E7FEB",
+    "initial": "D"
+  },
+  {
+    "name": "Disney+ Hotstar",
+    "category": "Streaming",
+    "avgPrice": 299,
+    "color": "#0F1E3D",
+    "initial": "H"
+  },
+  {
+    "name": "Dropbox",
+    "category": "Cloud Storage",
+    "avgPrice": 799,
+    "color": "#0061FF",
+    "initial": "D"
+  },
+  {
+    "name": "Duolingo Plus",
+    "category": "Education",
+    "avgPrice": 500,
+    "color": "#58CC02",
+    "initial": "D"
+  },
+  {
+    "name": "EA Play",
+    "category": "Gaming",
+    "avgPrice": 399,
+    "color": "#000000",
+    "initial": "E"
+  },
+  {
+    "name": "Economist",
+    "category": "News",
+    "avgPrice": 1500,
+    "color": "#E3120B",
+    "initial": "E"
+  },
+  {
+    "name": "ESPN+",
+    "category": "Streaming",
+    "avgPrice": 499,
+    "color": "#D00022",
+    "initial": "E"
+  },
+  {
+    "name": "Evernote",
+    "category": "Productivity",
+    "avgPrice": 700,
+    "color": "#00A82D",
+    "initial": "E"
+  },
+  {
+    "name": "ExpressVPN",
+    "category": "Security",
+    "avgPrice": 699,
+    "color": "#DA3940",
+    "initial": "E"
+  },
+  {
+    "name": "Figma",
+    "category": "Design",
+    "avgPrice": 1000,
+    "color": "#F24E1E",
+    "initial": "F"
+  },
+  {
+    "name": "Fitbit Premium",
+    "category": "Fitness",
+    "avgPrice": 640,
+    "color": "#00B0B9",
+    "initial": "F"
+  },
+  {
+    "name": "Flipkart Plus",
+    "category": "Shopping",
+    "avgPrice": 0,
+    "color": "#2874F0",
+    "initial": "F"
+  },
+  {
+    "name": "Gaana",
+    "category": "Music",
+    "avgPrice": 99,
+    "color": "#E72C30",
+    "initial": "G"
+  },
+  {
+    "name": "GitHub Copilot",
+    "category": "Developer Tools",
+    "avgPrice": 800,
+    "color": "#181717",
+    "initial": "G"
+  },
+  {
+    "name": "GoDaddy",
+    "category": "Developer Tools",
+    "avgPrice": 900,
+    "color": "#00A4A6",
+    "initial": "G"
+  },
+  {
+    "name": "Google One",
+    "category": "Cloud Storage",
+    "avgPrice": 130,
+    "color": "#4285F4",
+    "initial": "G"
+  },
+  {
+    "name": "Google Workspace",
+    "category": "Productivity",
+    "avgPrice": 680,
+    "color": "#4285F4",
+    "initial": "G"
+  },
+  {
+    "name": "Grammarly Premium",
+    "category": "Productivity",
+    "avgPrice": 1000,
+    "color": "#15C39A",
+    "initial": "G"
+  },
+  {
+    "name": "Groww",
+    "category": "Finance",
+    "avgPrice": 0,
+    "color": "#00D09C",
+    "initial": "G"
+  },
+  {
+    "name": "HBO Max",
+    "category": "Streaming",
+    "avgPrice": 799,
+    "color": "#8929FF",
+    "initial": "H"
+  },
+  {
+    "name": "Headspace",
+    "category": "Wellness",
+    "avgPrice": 999,
+    "color": "#F47D31",
+    "initial": "H"
+  },
+  {
+    "name": "Hulu",
+    "category": "Streaming",
+    "avgPrice": 599,
+    "color": "#1CE783",
+    "initial": "H"
+  },
+  {
+    "name": "Jio Fiber",
+    "category": "Internet",
+    "avgPrice": 999,
+    "color": "#0F1F5C",
+    "initial": "J"
+  },
+  {
+    "name": "Jio Postpaid",
+    "category": "Mobile",
+    "avgPrice": 399,
+    "color": "#0F1F5C",
+    "initial": "J"
+  },
+  {
+    "name": "JioCinema",
+    "category": "Streaming",
+    "avgPrice": 29,
+    "color": "#C4232B",
+    "initial": "J"
+  },
+  {
+    "name": "JioSaavn",
+    "category": "Music",
+    "avgPrice": 99,
+    "color": "#2BC5B4",
+    "initial": "J"
+  },
+  {
+    "name": "Kindle Unlimited",
+    "category": "Books",
+    "avgPrice": 169,
+    "color": "#232F3E",
+    "initial": "K"
+  },
+  {
+    "name": "LastPass",
+    "category": "Security",
+    "avgPrice": 250,
+    "color": "#D32D2F",
+    "initial": "L"
+  },
+  {
+    "name": "LinkedIn Learning",
+    "category": "Education",
+    "avgPrice": 1600,
+    "color": "#0A66C2",
+    "initial": "L"
+  },
+  {
+    "name": "LinkedIn Premium",
+    "category": "Productivity",
+    "avgPrice": 1600,
+    "color": "#0A66C2",
+    "initial": "L"
+  },
+  {
+    "name": "Mailchimp",
+    "category": "Marketing",
+    "avgPrice": 1000,
+    "color": "#FFE01B",
+    "initial": "M"
+  },
+  {
+    "name": "McAfee Total Protection",
+    "category": "Security",
+    "avgPrice": 699,
+    "color": "#C01818",
+    "initial": "M"
+  },
+  {
+    "name": "Medium",
+    "category": "Reading",
+    "avgPrice": 400,
+    "color": "#000000",
+    "initial": "M"
+  },
+  {
+    "name": "Microsoft 365",
+    "category": "Productivity",
+    "avgPrice": 489,
+    "color": "#EA3E23",
+    "initial": "M"
+  },
+  {
+    "name": "Midjourney",
+    "category": "AI Tools",
+    "avgPrice": 830,
+    "color": "#000000",
+    "initial": "M"
+  },
+  {
+    "name": "MX Player",
+    "category": "Streaming",
+    "avgPrice": 0,
+    "color": "#FF6D00",
+    "initial": "M"
+  },
+  {
+    "name": "Myntra Insider",
+    "category": "Shopping",
+    "avgPrice": 0,
+    "color": "#FF3F6C",
+    "initial": "M"
+  },
+  {
+    "name": "Namecheap Domain",
+    "category": "Developer Tools",
+    "avgPrice": 900,
+    "color": "#DE3723",
+    "initial": "N"
+  },
+  {
+    "name": "Netflix",
+    "category": "Streaming",
+    "avgPrice": 649,
+    "color": "#E50914",
+    "initial": "N"
+  },
+  {
+    "name": "New York Times",
+    "category": "News",
+    "avgPrice": 700,
+    "color": "#000000",
+    "initial": "N"
+  },
+  {
+    "name": "Nintendo Switch Online",
+    "category": "Gaming",
+    "avgPrice": 199,
+    "color": "#E60012",
+    "initial": "N"
+  },
+  {
+    "name": "NordVPN",
+    "category": "Security",
+    "avgPrice": 349,
+    "color": "#4687FF",
+    "initial": "N"
+  },
+  {
+    "name": "Norton 360",
+    "category": "Security",
+    "avgPrice": 799,
+    "color": "#FFC800",
+    "initial": "N"
+  },
+  {
+    "name": "Notion",
+    "category": "Productivity",
+    "avgPrice": 800,
+    "color": "#000000",
+    "initial": "N"
+  },
+  {
+    "name": "Ola Select",
+    "category": "Transport",
+    "avgPrice": 199,
+    "color": "#000000",
+    "initial": "O"
+  },
+  {
+    "name": "Paramount+",
+    "category": "Streaming",
+    "avgPrice": 499,
+    "color": "#0064FF",
+    "initial": "P"
+  },
+  {
+    "name": "Peacock",
+    "category": "Streaming",
+    "avgPrice": 499,
+    "color": "#000000",
+    "initial": "P"
+  },
+  {
+    "name": "Perplexity Pro",
+    "category": "AI Tools",
+    "avgPrice": 1650,
+    "color": "#20808D",
+    "initial": "P"
+  },
+  {
+    "name": "PlayStation Plus",
+    "category": "Gaming",
+    "avgPrice": 499,
+    "color": "#003791",
+    "initial": "P"
+  },
+  {
+    "name": "PolicyBazaar",
+    "category": "Insurance",
+    "avgPrice": 0,
+    "color": "#00A0DC",
+    "initial": "P"
+  },
+  {
+    "name": "Rapido",
+    "category": "Transport",
+    "avgPrice": 0,
+    "color": "#FDC800",
+    "initial": "R"
+  },
+  {
+    "name": "Razorpay Magic Checkout",
+    "category": "Finance",
+    "avgPrice": 0,
+    "color": "#3395FF",
+    "initial": "R"
+  },
+  {
+    "name": "Skillshare",
+    "category": "Education",
+    "avgPrice": 1100,
+    "color": "#00FF84",
+    "initial": "S"
+  },
+  {
+    "name": "Slack",
+    "category": "Productivity",
+    "avgPrice": 600,
+    "color": "#4A154B",
+    "initial": "S"
+  },
+  {
+    "name": "SonyLIV",
+    "category": "Streaming",
+    "avgPrice": 299,
+    "color": "#000000",
+    "initial": "S"
+  },
+  {
+    "name": "SoundCloud",
+    "category": "Music",
+    "avgPrice": 399,
+    "color": "#FF5500",
+    "initial": "S"
+  },
+  {
+    "name": "Spotify",
+    "category": "Music",
+    "avgPrice": 119,
+    "color": "#1DB954",
+    "initial": "S"
+  },
+  {
+    "name": "Steam",
+    "category": "Gaming",
+    "avgPrice": 0,
+    "color": "#1B2838",
+    "initial": "S"
+  },
+  {
+    "name": "Strava",
+    "category": "Fitness",
+    "avgPrice": 640,
+    "color": "#FC4C02",
+    "initial": "S"
+  },
+  {
+    "name": "Sun NXT",
+    "category": "Streaming",
+    "avgPrice": 99,
+    "color": "#E4002B",
+    "initial": "S"
+  },
+  {
+    "name": "Supabase Pro",
+    "category": "Developer Tools",
+    "avgPrice": 2100,
+    "color": "#3ECF8E",
+    "initial": "S"
+  },
+  {
+    "name": "Swiggy One",
+    "category": "Food Delivery",
+    "avgPrice": 149,
+    "color": "#FC8019",
+    "initial": "S"
+  },
+  {
+    "name": "The Times of India ePaper",
+    "category": "News",
+    "avgPrice": 199,
+    "color": "#E30613",
+    "initial": "T"
+  },
+  {
+    "name": "Tidal",
+    "category": "Music",
+    "avgPrice": 599,
+    "color": "#000000",
+    "initial": "T"
+  },
+  {
+    "name": "Uber One",
+    "category": "Transport",
+    "avgPrice": 399,
+    "color": "#000000",
+    "initial": "U"
+  },
+  {
+    "name": "Udemy",
+    "category": "Education",
+    "avgPrice": 500,
+    "color": "#A435F0",
+    "initial": "U"
+  },
+  {
+    "name": "Vercel Pro",
+    "category": "Developer Tools",
+    "avgPrice": 1650,
+    "color": "#000000",
+    "initial": "V"
+  },
+  {
+    "name": "Vi (Vodafone Idea)",
+    "category": "Mobile",
+    "avgPrice": 399,
+    "color": "#E60000",
+    "initial": "V"
+  },
+  {
+    "name": "Voot",
+    "category": "Streaming",
+    "avgPrice": 99,
+    "color": "#EF1E24",
+    "initial": "V"
+  },
+  {
+    "name": "Wynk Music",
+    "category": "Music",
+    "avgPrice": 49,
+    "color": "#F06432",
+    "initial": "W"
+  },
+  {
+    "name": "Xbox Game Pass",
+    "category": "Gaming",
+    "avgPrice": 489,
+    "color": "#107C10",
+    "initial": "X"
+  },
+  {
+    "name": "YouTube Premium",
+    "category": "Streaming",
+    "avgPrice": 149,
+    "color": "#FF0000",
+    "initial": "Y"
+  },
+  {
+    "name": "ZEE5",
+    "category": "Streaming",
+    "avgPrice": 149,
+    "color": "#8236E2",
+    "initial": "Z"
+  },
+  {
+    "name": "Zerodha Kite Connect",
+    "category": "Finance",
+    "avgPrice": 500,
+    "color": "#387ED1",
+    "initial": "Z"
+  },
+  {
+    "name": "Zoho Mail",
+    "category": "Productivity",
+    "avgPrice": 100,
+    "color": "#E42527",
+    "initial": "Z"
+  },
+  {
+    "name": "Zomato Gold",
+    "category": "Food Delivery",
+    "avgPrice": 149,
+    "color": "#E23744",
+    "initial": "Z"
+  },
+  {
+    "name": "Zoom Pro",
+    "category": "Productivity",
+    "avgPrice": 1200,
+    "color": "#2D8CFF",
+    "initial": "Z"
+  }
+]
