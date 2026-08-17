@@ -9,7 +9,7 @@ import {
   getUpcomingRenewals,
   getSpendingBreakdown,
 } from '@/lib/subscription-utils'
-import { getCurrencySymbol } from '@/lib/currencies'
+import { getCurrencySymbol, formatAmount } from '@/lib/currencies'
 import Footer from '@/components/Footer'
 import SpendingChart from '@/components/SpendingChart'
 import EmptyDashboardState from '@/components/EmptyDashboardState'
@@ -63,11 +63,11 @@ export default async function DashboardPage() {
             <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Monthly Spending</p>
-                <p className="text-xl font-bold text-navy">{symbol}{monthlySpending.toFixed(2)}</p>
+                <p className="text-xl font-bold text-navy">{formatAmount(monthlySpending, currency)}</p>
               </div>
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Yearly Spending</p>
-                <p className="text-xl font-bold text-navy">{symbol}{yearlySpending.toFixed(2)}</p>
+                <p className="text-xl font-bold text-navy">{formatAmount(yearlySpending, currency)}</p>
               </div>
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Active Subscriptions</p>

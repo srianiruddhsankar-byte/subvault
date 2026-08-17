@@ -1,7 +1,7 @@
 'use client'
 
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
-import { getCurrencySymbol } from '@/lib/currencies'
+import { getCurrencySymbol, formatAmount } from '@/lib/currencies'
 
 type SpendingItem = {
   name: string
@@ -26,7 +26,7 @@ export default function SpendingChart({
         <BarChart data={data} layout="vertical" margin={{ left: 20 }}>
           <XAxis type="number" hide />
           <YAxis type="category" dataKey="name" width={100} tick={{ fontSize: 13 }} />
-          <Tooltip formatter={(value) => [`${symbol}${Number(value).toFixed(2)}`, 'Monthly']} />
+          <Tooltip formatter={(value) => [formatAmount(Number(value), currency), 'Monthly']} />
           <Bar dataKey="monthly" fill="#1E3A5F" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>

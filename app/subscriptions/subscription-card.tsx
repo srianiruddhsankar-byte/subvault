@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { getCurrencySymbol } from '@/lib/currencies'
+import { getCurrencySymbol, formatAmount } from '@/lib/currencies'
 
 import type { Subscription } from '@/lib/types'
 
@@ -36,7 +36,7 @@ export default function SubscriptionCard({
       <div>
         <p className="font-semibold text-navy">{sub.service_name}</p>
         <p className="text-sm text-gray-500">
-          {symbol}{sub.price} · {sub.billing_cycle} · Renews {sub.renewal_date}
+          {formatAmount(sub.price, currency)} · {sub.billing_cycle} · Renews {sub.renewal_date}
         </p>
         <span
           className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs ${
