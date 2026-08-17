@@ -9,7 +9,7 @@ import {
   getUpcomingRenewals,
   getSpendingBreakdown,
 } from '@/lib/subscription-utils'
-import { getCurrencySymbol, formatAmount } from '@/lib/currencies'
+import { formatAmount } from '@/lib/currencies'
 import Footer from '@/components/Footer'
 import SpendingChart from '@/components/SpendingChart'
 import EmptyDashboardState from '@/components/EmptyDashboardState'
@@ -23,7 +23,6 @@ export default async function DashboardPage() {
   }
 
   const currency = user.user_metadata?.currency || 'INR'
-  const symbol = getCurrencySymbol(currency)
 
   const { data: subscriptions } = await supabase
     .from('subscriptions')

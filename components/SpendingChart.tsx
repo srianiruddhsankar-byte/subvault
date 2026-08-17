@@ -1,7 +1,7 @@
 'use client'
 
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
-import { getCurrencySymbol, formatAmount } from '@/lib/currencies'
+import { formatAmount } from '@/lib/currencies'
 
 type SpendingItem = {
   name: string
@@ -16,8 +16,6 @@ export default function SpendingChart({
   currency: string
 }) {
   if (data.length === 0) return null
-
-  const symbol = getCurrencySymbol(currency)
 
   return (
     <div className="rounded-lg bg-card p-4 shadow-sm">
