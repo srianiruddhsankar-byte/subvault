@@ -52,9 +52,15 @@ export default async function DashboardPage() {
 
       <div className="mx-auto w-full max-w-4xl flex-1 px-6 py-10">
         <h1 className="text-2xl font-bold text-navy">Dashboard</h1>
-        <p className="mb-6 text-sm text-gray-500">
-          Track your subscriptions and see what you&apos;re spending.
-        </p>
+        {subs.length === 0 && (
+          <p className="mb-6 text-sm text-gray-500">
+            Track your subscriptions and see what you&apos;re spending. Head to{' '}
+            <Link href="/subscriptions" className="text-navy underline">
+              Subscriptions
+            </Link>{' '}
+            to add your first one.
+          </p>
+        )}
 
         {subs.length === 0 ? (
           <EmptyDashboardState />
