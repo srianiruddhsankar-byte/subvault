@@ -13,6 +13,8 @@ export default async function SubscriptionsPage() {
     redirect('/login')
   }
 
+  const currency = user.user_metadata?.currency || 'INR'
+
   const { data: subscriptions } = await supabase
     .from('subscriptions')
     .select('*')
@@ -48,7 +50,7 @@ export default async function SubscriptionsPage() {
         {subscriptions && subscriptions.length > 0 ? (
           <div className="flex flex-col gap-3">
             {subscriptions.map((sub) => (
-              <SubscriptionCard key={sub.id} sub={sub} />
+              <SubscriptionCard key={sub.id} sub={sub} currency={currency} />
             ))}
           </div>
         ) : (

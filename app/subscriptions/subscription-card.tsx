@@ -2,12 +2,20 @@
 
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { getCurrencySymbol } from '@/lib/currencies'
 
 import type { Subscription } from '@/lib/types'
 
-export default function SubscriptionCard({ sub }: { sub: Subscription }) {
+export default function SubscriptionCard({
+  sub,
+  currency,
+}: {
+  sub: Subscription
+  currency: string
+}) {
   const router = useRouter()
   const supabase = createClient()
+  const symbol = getCurrencySymbol(currency)
 
   const handleDelete = async () => {
     const confirmed = confirm(`Delete ${sub.service_name}? This cannot be undone.`)
@@ -28,7 +36,7 @@ export default function SubscriptionCard({ sub }: { sub: Subscription }) {
       <div>
         <p className="font-semibold text-navy">{sub.service_name}</p>
         <p className="text-sm text-gray-500">
-          ₹{sub.price} · {sub.billing_cycle} · Renews {sub.renewal_date}
+          {symbol}{sub.price} · {sub.billing_cycle} · Renews {sub.renewal_date}
         </p>
         <span
           className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs ${

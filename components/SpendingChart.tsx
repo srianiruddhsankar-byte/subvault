@@ -1,14 +1,23 @@
 'use client'
 
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
+import { getCurrencySymbol } from '@/lib/currencies'
 
 type SpendingItem = {
   name: string
   monthly: number
 }
 
-export default function SpendingChart({ data }: { data: SpendingItem[] }) {
+export default function SpendingChart({
+  data,
+  currency,
+}: {
+  data: SpendingItem[]
+  currency: string
+}) {
   if (data.length === 0) return null
+
+  const symbol = getCurrencySymbol(currency)
 
   return (
     <div className="rounded-lg bg-card p-4 shadow-sm">
@@ -17,7 +26,7 @@ export default function SpendingChart({ data }: { data: SpendingItem[] }) {
         <BarChart data={data} layout="vertical" margin={{ left: 20 }}>
           <XAxis type="number" hide />
           <YAxis type="category" dataKey="name" width={100} tick={{ fontSize: 13 }} />
-          <Tooltip formatter={(value) => [`₹${Number(value).toFixed(2)}`, 'Monthly']} />
+          <Tooltip formatter={(value) => [`${symbol}${Number(value).toFixed(2)}`, 'Monthly']} />
           <Bar dataKey="monthly" fill="#1E3A5F" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>

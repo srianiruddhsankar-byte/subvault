@@ -9,6 +9,7 @@ import {
   getUpcomingRenewals,
   getSpendingBreakdown,
 } from '@/lib/subscription-utils'
+import { getCurrencySymbol } from '@/lib/currencies'
 import Footer from '@/components/Footer'
 import SpendingChart from '@/components/SpendingChart'
 import EmptyDashboardState from '@/components/EmptyDashboardState'
@@ -20,6 +21,9 @@ export default async function DashboardPage() {
   if (!user) {
     redirect('/login')
   }
+
+  const currency = user.user_metadata?.currency || 'INR'
+  const symbol = getCurrencySymbol(currency)
 
   const { data: subscriptions } = await supabase
     .from('subscriptions')
@@ -59,11 +63,11 @@ export default async function DashboardPage() {
             <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Monthly Spending</p>
-                <p className="text-xl font-bold text-navy">₹{monthlySpending.toFixed(2)}</p>
+                <p className="text-xl font-bold text-navy">{symbol}{monthlySpending.toFixed(2)}</p>
               </div>
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Yearly Spending</p>
-                <p className="text-xl font-bold text-navy">₹{yearlySpending.toFixed(2)}</p>
+                <p className="text-xl font-bold text-navy">{symbol}{yearlySpending.toFixed(2)}</p>
               </div>
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Active Subscriptions</p>
@@ -77,7 +81,7 @@ export default async function DashboardPage() {
 
             {spendingBreakdown.length > 0 && (
               <div className="mb-8">
-                <SpendingChart data={spendingBreakdown} />
+                <SpendingChart data={spendingBreakdown} currency={currency} />
               </div>
             )}
 
