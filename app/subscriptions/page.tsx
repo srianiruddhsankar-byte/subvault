@@ -25,8 +25,8 @@ export default async function SubscriptionsPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <nav className="relative flex items-center justify-between bg-navy px-6 py-4 text-white">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <Wallet className="h-5 w-5" />
-          <span className="font-bold">SubVault</span>
+          <Wallet className="h-6 w-6" />
+          <span className="text-lg font-bold">SubVault</span>
         </Link>
         <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-6">
           <Link href="/dashboard" className="hover:underline">Dashboard</Link>

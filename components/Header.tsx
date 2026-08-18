@@ -5,10 +5,10 @@ export default function Header({ loggedIn = false }: { loggedIn?: boolean }) {
   return (
     <header className="border-b border-gray-100 bg-white px-6 py-3">
       <Link href={loggedIn ? '/dashboard' : '/'} className="flex w-fit items-center gap-2">
-        <div className="rounded-md bg-navy p-1.5">
-          <Wallet className="h-5 w-5 text-white" />
+        <div className="rounded-md bg-navy p-2">
+          <Wallet className="h-6 w-6 text-white" />
         </div>
-        <span className="text-lg font-bold text-navy">SubVault</span>
+        <span className="text-xl font-bold text-navy">SubVault</span>
       </Link>
     </header>
   )
