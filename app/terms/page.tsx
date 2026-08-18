@@ -1,10 +1,14 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { createClient } from '@/lib/supabase-server'
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <Header />
+      <Header loggedIn={!!user} />
       <div className="mx-auto w-full max-w-2xl flex-1 px-6 py-12">
         <h1 className="mb-2 text-2xl font-bold text-navy">Terms of Service</h1>
         <p className="mb-8 text-sm text-gray-500">Last updated: August 2026</p>

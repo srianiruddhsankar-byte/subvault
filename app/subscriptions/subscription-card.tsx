@@ -33,8 +33,8 @@ export default function SubscriptionCard({
   return (
     <div className="flex items-center justify-between rounded-lg bg-card p-4 shadow-sm">
       <div>
-        <p className="font-semibold text-navy">{sub.service_name}</p>
-        <p className="text-sm text-gray-500">
+        <p className="mb-1 text-xl font-bold leading-tight text-navy">{sub.service_name}</p>
+        <p className="text-sm text-gray-400">
           {formatAmount(sub.price, currency)} · {sub.billing_cycle} · Renews {sub.renewal_date}
         </p>
         <span

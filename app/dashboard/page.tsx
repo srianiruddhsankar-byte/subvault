@@ -98,8 +98,8 @@ export default async function DashboardPage() {
                     key={sub.id}
                     className="flex justify-between rounded-lg bg-card p-4 shadow-sm"
                   >
-                    <span className="text-foreground">{sub.service_name}</span>
-                    <span className="text-sm text-gray-500">{sub.renewal_date}</span>
+                    <span className="text-base font-semibold text-navy">{sub.service_name}</span>
+                    <span className="text-sm text-gray-400">{sub.renewal_date}</span>
                   </div>
                 ))}
               </div>
