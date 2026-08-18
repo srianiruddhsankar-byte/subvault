@@ -85,13 +85,16 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
       </div>
       <div>
         <label className="mb-1 block text-sm text-foreground">Billing Cycle</label>
-        <select
+          <select
           value={billingCycle}
           onChange={(e) => setBillingCycle(e.target.value)}
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         >
-          <option value="Monthly">Monthly</option>
-          <option value="Yearly">Yearly</option>
+          <option value="Monthly(1 Month)">Monthly(1 Month)</option>
+          <option value="Quarterly(3 Months)">Quarterly (3 months)</option>
+          <option value="Half-Yearly(6 Months)">Half-Yearly (6 months)</option>
+          <option value="9-Monthly(9 Months)">9-Monthly (9 months)</option>
+          <option value="Yearly(12 Months)">Yearly(12 Months)</option>
         </select>
       </div>
       <div>
