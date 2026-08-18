@@ -8,6 +8,7 @@ import {
   calculateYearlySpending,
   getUpcomingRenewals,
   getSpendingBreakdown,
+  formatDate,
 } from '@/lib/subscription-utils'
 import { formatAmount } from '@/lib/currencies'
 import Footer from '@/components/Footer'
@@ -99,7 +100,7 @@ export default async function DashboardPage() {
                     className="flex justify-between rounded-lg bg-card p-4 shadow-sm"
                   >
                     <span className="text-base font-semibold text-navy">{sub.service_name}</span>
-                    <span className="text-sm text-gray-400">{sub.renewal_date}</span>
+                    <span className="text-sm text-gray-400">{formatDate(sub.renewal_date)}</span>
                   </div>
                 ))}
               </div>

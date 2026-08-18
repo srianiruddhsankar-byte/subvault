@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { formatAmount } from '@/lib/currencies'
-
+import { formatDate } from '@/lib/subscription-utils'
 import type { Subscription } from '@/lib/types'
 
 export default function SubscriptionCard({
@@ -35,7 +35,7 @@ export default function SubscriptionCard({
       <div>
         <p className="mb-1 text-xl font-bold leading-tight text-navy">{sub.service_name}</p>
         <p className="text-sm text-gray-400">
-          {formatAmount(sub.price, currency)} · {sub.billing_cycle} · Renews {sub.renewal_date}
+          {formatAmount(sub.price, currency)} · {sub.billing_cycle} · Renews {formatDate(sub.renewal_date)}
         </p>
         <span
           className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs ${
