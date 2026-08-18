@@ -118,11 +118,11 @@ export default function AddSubscriptionForm() {
           onChange={(e) => setBillingCycle(e.target.value)}
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         >
-          <option value="Monthly(1 Month)">Monthly(1 Month)</option>
-          <option value="Quarterly(3 Months)">Quarterly (3 months)</option>
-          <option value="Half-Yearly(6 Months)">Half-Yearly (6 months)</option>
-          <option value="9-Monthly(9 Months)">9-Monthly (9 months)</option>
-          <option value="Yearly(12 Months)">Yearly(12 Months)</option>
+          <option value="Monthly">Monthly (1 Month)</option>
+          <option value="Quarterly">Quarterly (3 Months)</option>
+          <option value="Half-Yearly">Half-Yearly (6 Months)</option>
+          <option value="9-Monthly">9-Monthly (9 Months)</option>
+          <option value="Yearly">Yearly (12 Months)</option>
         </select>
       </div>
       <div>
