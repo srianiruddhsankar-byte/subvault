@@ -52,3 +52,25 @@ export function formatDate(dateString: string): string {
   const year = date.getFullYear()
   return `${day} ${month} ${year}`
 }
+export function isOverdue(sub: Subscription): boolean {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const renewalDate = new Date(sub.renewal_date)
+  return sub.status === 'Active' && renewalDate < today
+}
+
+export function getNextRenewalDate(currentDate: string, billingCycle: string): string {
+  const date = new Date(currentDate)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  // Start from today (not the old date) so a long-overdue subscription
+  // jumps to a sensible future date, not just one cycle past the old one
+  const base = date < today ? today : date
+  const result = new Date(base)
+
+  const monthsToAdd = monthsInCycle(billingCycle)
+  result.setMonth(result.getMonth() + monthsToAdd)
+
+  return result.toISOString().split('T')[0] // yyyy-mm-dd for Supabase
+}
