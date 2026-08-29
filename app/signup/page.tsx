@@ -121,11 +121,18 @@ export default function SignupPage() {
               {loading ? 'Signing up...' : 'Sign Up'}
             </button>
           </form>
-          <p className="mt-4 text-sm text-foreground">
+                    <p className="mt-4 text-sm text-foreground">
             Already have an account?{' '}
             <a href="/login" className="text-navy underline">
               Login
             </a>
+          </p>
+          <p className="mt-3 text-center text-xs text-gray-400">
+            🔒 Your data is encrypted and never sold. See our{' '}
+            <a href="/privacy" className="underline">
+              Privacy Policy
+            </a>
+            .
           </p>
         </div>
       </div>

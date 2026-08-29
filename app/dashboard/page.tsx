@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Wallet } from 'lucide-react'
 import { createClient } from '@/lib/supabase-server'
+import InsightsGrid from '@/components/InsightsGrid'
 import UserMenu from '@/components/UserMenu'
 import {
   calculateMonthlySpending,
@@ -85,11 +86,13 @@ export default async function DashboardPage() {
               </div>
             </div>
 
-            {spendingBreakdown.length > 0 && (
+                        {spendingBreakdown.length > 0 && (
               <div className="mb-8">
                 <SpendingChart data={spendingBreakdown} currency={currency} />
               </div>
             )}
+
+            <InsightsGrid subs={subs} currency={currency} />
 
             <h2 className="mb-4 text-lg font-semibold text-navy">Upcoming Renewals</h2>
             {upcoming.length > 0 ? (

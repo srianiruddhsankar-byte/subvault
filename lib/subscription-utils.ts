@@ -74,3 +74,61 @@ export function getNextRenewalDate(currentDate: string, billingCycle: string): s
 
   return result.toISOString().split('T')[0] // yyyy-mm-dd for Supabase
 }
+import knownServices from './known-services.json'
+
+function getCategoryForService(serviceName: string): string {
+  const match = (knownServices as { name: string; category: string }[]).find(
+    (s) => s.name.toLowerCase() === serviceName.toLowerCase()
+  )
+  return match ? match.category : 'Other'
+}
+
+export function calculateMoneySaved(subs: Subscription[]): number {
+  return subs
+    .filter((s) => s.status === 'Cancelled')
+    .reduce((total, s) => total + (s.price / monthsInCycle(s.billing_cycle)) * 12, 0)
+}
+
+export function getMostExpensiveSubscription(subs: Subscription[]) {
+  const active = subs.filter((s) => s.status === 'Active')
+  if (active.length === 0) return null
+
+  return active.reduce((most, s) => {
+    const monthly = s.price / monthsInCycle(s.billing_cycle)
+    const mostMonthly = most.price / monthsInCycle(most.billing_cycle)
+    return monthly > mostMonthly ? s : most
+  })
+}
+
+export function getTopCategory(subs: Subscription[]) {
+  const active = subs.filter((s) => s.status === 'Active')
+  if (active.length === 0) return null
+
+  const totals: Record<string, number> = {}
+
+  for (const s of active) {
+    const category = getCategoryForService(s.service_name)
+    const monthly = s.price / monthsInCycle(s.billing_cycle)
+    totals[category] = (totals[category] || 0) + monthly
+  }
+
+  const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1])
+  if (sorted.length === 0) return null
+
+  return { category: sorted[0][0], monthly: sorted[0][1] }
+}
+export function getRenewingThisWeek(subs: Subscription[]) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const weekFromNow = new Date(today)
+  weekFromNow.setDate(weekFromNow.getDate() + 7)
+
+  const renewing = subs.filter((s) => {
+    if (s.status !== 'Active') return false
+    const renewalDate = new Date(s.renewal_date)
+    return renewalDate >= today && renewalDate <= weekFromNow
+  })
+
+  const total = renewing.reduce((sum, s) => sum + s.price, 0)
+  return { count: renewing.length, total }
+}

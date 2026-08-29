@@ -72,27 +72,34 @@ export default function SubscriptionCard({
           )}
         </div>
       </div>
-      <div className="flex gap-2">
-        {overdue && (
+            <div className="flex flex-col items-end gap-1">
+        <div className="flex gap-2">
+          {overdue && (
+            <button
+              onClick={handleRenew}
+              className="rounded-md bg-green px-3 py-1 text-sm text-white hover:opacity-90"
+            >
+              Renew
+            </button>
+          )}
           <button
-            onClick={handleRenew}
-            className="rounded-md bg-green px-3 py-1 text-sm text-white hover:opacity-90"
+            onClick={() => router.push(`/subscriptions/edit/${sub.id}`)}
+            className="rounded-md border border-navy px-3 py-1 text-sm text-navy hover:bg-navy hover:text-white"
+            title="Edit details or mark as Cancelled to keep it in your history"
           >
-            Renew
+            Edit
           </button>
-        )}
-        <button
-          onClick={() => router.push(`/subscriptions/edit/${sub.id}`)}
-          className="rounded-md border border-navy px-3 py-1 text-sm text-navy hover:bg-navy hover:text-white"
-        >
-          Edit
-        </button>
-        <button
-          onClick={handleDelete}
-          className="rounded-md border border-alert px-3 py-1 text-sm text-alert hover:bg-alert hover:text-white"
-        >
-          Delete
-        </button>
+          <button
+            onClick={handleDelete}
+            className="rounded-md border border-alert px-3 py-1 text-sm text-alert hover:bg-alert hover:text-white"
+            title="Permanently removes this subscription — use Cancel instead to keep a record"
+          >
+            Delete
+          </button>
+        </div>
+        <p className="text-[11px] text-gray-400">
+          Cancel via Edit to keep history · Delete removes it permanently
+        </p>
       </div>
     </div>
   )
