@@ -6,6 +6,7 @@ import {
   getMostExpensiveSubscription,
   getTopCategory,
   getRenewingThisWeek,
+  getRenewingThisMonth,
 } from '@/lib/subscription-utils'
 
 export default function InsightsGrid({
@@ -18,7 +19,8 @@ export default function InsightsGrid({
     const moneySaved = calculateMoneySaved(subs)
   const mostExpensive = getMostExpensiveSubscription(subs)
   const topCategory = getTopCategory(subs)
-  const renewingThisWeek = getRenewingThisWeek(subs)
+    const renewingThisWeek = getRenewingThisWeek(subs)
+  const renewingThisMonth = getRenewingThisMonth(subs)
 
   return (
     <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -44,13 +46,14 @@ export default function InsightsGrid({
         </p>
       </div>
 
-            <div className="rounded-lg bg-card p-4 shadow-sm">
+              <div className="rounded-lg bg-card p-4 shadow-sm">
         <Wallet className="mb-2 h-5 w-5 text-navy" />
-        <p className="text-sm text-gray-500">Renewing This Week</p>
-        <p className="text-lg font-bold text-navy">
-          {renewingThisWeek.count > 0
-            ? `${renewingThisWeek.count} · ${formatAmount(renewingThisWeek.total, currency)}`
-            : 'None'}
+        <p className="text-sm text-gray-500">Renewing Soon</p>
+        <p className="text-sm font-bold text-navy">
+          This week: {renewingThisWeek.count > 0 ? formatAmount(renewingThisWeek.total, currency) : 'None'}
+        </p>
+        <p className="text-sm font-bold text-navy">
+          This month: {renewingThisMonth.count > 0 ? formatAmount(renewingThisMonth.total, currency) : 'None'}
         </p>
       </div>
     </div>

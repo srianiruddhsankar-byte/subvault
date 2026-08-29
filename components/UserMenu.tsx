@@ -43,17 +43,17 @@ export default function UserMenu({ email }: { email: string }) {
           <div className="border-b border-gray-100 px-4 py-2 text-xs text-gray-500">
             {email}
           </div>
-          <Link
+                    <Link
             href="/dashboard"
             onClick={() => setOpen(false)}
-            className="block px-4 py-2 text-sm text-foreground hover:bg-gray-50"
+            className="block px-4 py-2 text-sm text-foreground hover:bg-gray-50 sm:hidden"
           >
             Dashboard
           </Link>
           <Link
             href="/subscriptions"
             onClick={() => setOpen(false)}
-            className="block px-4 py-2 text-sm text-foreground hover:bg-gray-50"
+            className="block px-4 py-2 text-sm text-foreground hover:bg-gray-50 sm:hidden"
           >
             Subscriptions
           </Link>

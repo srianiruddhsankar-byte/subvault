@@ -132,3 +132,16 @@ export function getRenewingThisWeek(subs: Subscription[]) {
   const total = renewing.reduce((sum, s) => sum + s.price, 0)
   return { count: renewing.length, total }
 }
+export function getRenewingThisMonth(subs: Subscription[]) {
+  const today = new Date()
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+
+  const renewing = subs.filter((s) => {
+    if (s.status !== 'Active') return false
+    const renewalDate = new Date(s.renewal_date)
+    return renewalDate >= today && renewalDate <= endOfMonth
+  })
+
+  const total = renewing.reduce((sum, s) => sum + s.price, 0)
+  return { count: renewing.length, total }
+}

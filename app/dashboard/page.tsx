@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Wallet } from 'lucide-react'
 import { createClient } from '@/lib/supabase-server'
 import InsightsGrid from '@/components/InsightsGrid'
+import RenewalCalendar from '@/components/RenewalCalendar'
 import UserMenu from '@/components/UserMenu'
 import {
   calculateMonthlySpending,
@@ -92,7 +93,11 @@ export default async function DashboardPage() {
               </div>
             )}
 
-            <InsightsGrid subs={subs} currency={currency} />
+                        <InsightsGrid subs={subs} currency={currency} />
+
+            <div className="mb-8">
+              <RenewalCalendar subs={subs} />
+            </div>
 
             <h2 className="mb-4 text-lg font-semibold text-navy">Upcoming Renewals</h2>
             {upcoming.length > 0 ? (
