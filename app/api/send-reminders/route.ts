@@ -1,9 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
-import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-
-const resend = new Resend(process.env.RESEND_API_KEY!)
+import { sendReminderEmail } from '@/lib/send-reminder-email'
+import { formatAmount } from '@/lib/currencies'
+import { formatDate } from '@/lib/subscription-utils'
 
 type Subscription = {
   id: string
@@ -13,6 +13,7 @@ type Subscription = {
   billing_cycle: string
   renewal_date: string
   status: string
+  overdue_notified: boolean
 }
 
 function daysBetween(date1: Date, date2: Date) {
@@ -46,24 +47,46 @@ export async function GET() {
 
   const remindersSent = []
 
+    console.log('Total active subscriptions found:', subscriptions?.length)
+
   for (const sub of (subscriptions || []) as Subscription[]) {
     const renewalDate = new Date(sub.renewal_date)
     renewalDate.setHours(0, 0, 0, 0)
     const diff = daysBetween(today, renewalDate)
 
-    if ([7, 3, 1, 0].includes(diff)) {
-      const { data: userData, error: userError } = await supabase.auth.admin.getUserById(sub.user_id)
-      if (userError || !userData.user?.email) continue
-      const userEmail = userData.user.email
+    console.log(`${sub.service_name}: renewal_date=${sub.renewal_date}, diff=${diff}`)
 
-      await resend.emails.send({
-        from: 'SubVault <onboarding@resend.dev>',
-        to: userEmail,
-        subject: `Renewal reminder: ${sub.service_name}`,
-        text: `Your ${sub.service_name} subscription (₹${sub.price}) renews on ${sub.renewal_date}.`,
-      })
+    let reminderType: '7-day' | '3-day' | '1-day' | 'overdue' | null = null
 
-      remindersSent.push({ service: sub.service_name, email: userEmail, diff })
+    if (diff === 7) reminderType = '7-day'
+    else if (diff === 3) reminderType = '3-day'
+    else if (diff === 1) reminderType = '1-day'
+    else if (diff < 0 && !sub.overdue_notified) reminderType = 'overdue'
+
+    if (!reminderType) continue
+
+    const { data: userData, error: userError } = await supabase.auth.admin.getUserById(sub.user_id)
+    if (userError || !userData.user?.email) continue
+    const userEmail = userData.user.email
+    const currency = userData.user.user_metadata?.currency || 'INR'
+
+    const result = await sendReminderEmail({
+      to: userEmail,
+      serviceName: sub.service_name,
+      price: formatAmount(sub.price, currency),
+      renewalDate: formatDate(sub.renewal_date),
+      reminderType,
+    })
+
+    if (result.success) {
+      remindersSent.push({ service: sub.service_name, email: userEmail, reminderType })
+
+      if (reminderType === 'overdue') {
+        await supabase
+          .from('subscriptions')
+          .update({ overdue_notified: true })
+          .eq('id', sub.id)
+      }
     }
   }
 

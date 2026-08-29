@@ -6,8 +6,11 @@ import { createClient } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
+const COMMON_EMAIL_DOMAINS = ['gmail.com', 'yahoo.com', 'outlook.com', 'icloud.com', 'hotmail.com']
+
 export default function SignupPage() {
   const [email, setEmail] = useState('')
+  const [showEmailSuggestions, setShowEmailSuggestions] = useState(false)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
@@ -52,18 +55,40 @@ export default function SignupPage() {
           SIGN UP
         </span>
         <div className="w-full max-w-sm rounded-lg bg-card p-8 shadow-md">
-          <h1 className="mb-1 text-2xl font-bold text-navy">Create your account</h1>
-          <p className="mb-6 text-sm text-gray-500">Start tracking your subscriptions</p>
+                    <h1 className="mb-1 text-2xl font-bold text-navy">Create your account</h1>
+          <p className="mb-6 text-sm text-gray-500">Free, and takes less than a minute.</p>
           <form onSubmit={handleSignup} className="flex flex-col gap-4">
-            <div>
+                        <div className="relative">
               <label className="mb-1 block text-sm text-foreground">Email</label>
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  setShowEmailSuggestions(e.target.value.includes('@') && !e.target.value.split('@')[1])
+                }}
+                onBlur={() => setTimeout(() => setShowEmailSuggestions(false), 150)}
                 required
                 className="w-full rounded-md border border-gray-300 px-3 py-2 transition focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy"
               />
+              {showEmailSuggestions && (
+                <ul className="absolute z-10 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-lg">
+                  {COMMON_EMAIL_DOMAINS.map((domain) => (
+                    <li key={domain}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmail(email.split('@')[0] + '@' + domain)
+                          setShowEmailSuggestions(false)
+                        }}
+                        className="block w-full px-3 py-2 text-left text-sm hover:bg-gray-50"
+                      >
+                        {email.split('@')[0]}@{domain}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <div>
               <label className="mb-1 block text-sm text-foreground">Password</label>

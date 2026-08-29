@@ -6,8 +6,11 @@ import { createClient } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
+const COMMON_EMAIL_DOMAINS = ['gmail.com', 'yahoo.com', 'outlook.com', 'icloud.com', 'hotmail.com']
+
 export default function LoginPage() {
   const [email, setEmail] = useState('')
+  const [showEmailSuggestions, setShowEmailSuggestions] = useState(false)
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -44,15 +47,37 @@ export default function LoginPage() {
           <h1 className="mb-1 text-2xl font-bold text-navy">Welcome back</h1>
           <p className="mb-6 text-sm text-gray-500">Log in to your SubVault account</p>
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
-            <div>
+                        <div className="relative">
               <label className="mb-1 block text-sm text-foreground">Email</label>
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  setShowEmailSuggestions(e.target.value.includes('@') && !e.target.value.split('@')[1])
+                }}
+                onBlur={() => setTimeout(() => setShowEmailSuggestions(false), 150)}
                 required
                 className="w-full rounded-md border border-gray-300 px-3 py-2 transition focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy"
               />
+              {showEmailSuggestions && (
+                <ul className="absolute z-10 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-lg">
+                  {COMMON_EMAIL_DOMAINS.map((domain) => (
+                    <li key={domain}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmail(email.split('@')[0] + '@' + domain)
+                          setShowEmailSuggestions(false)
+                        }}
+                        className="block w-full px-3 py-2 text-left text-sm hover:bg-gray-50"
+                      >
+                        {email.split('@')[0]}@{domain}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <div>
               <div className="mb-1 flex items-center justify-between">
