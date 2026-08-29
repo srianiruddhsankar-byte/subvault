@@ -30,12 +30,12 @@ export default async function EditSubscriptionPage({
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="relative flex items-center justify-between bg-navy px-6 py-4 text-white">
+      <nav className="relative flex items-center justify-between bg-navy px-4 py-4 text-white sm:px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
           <Wallet className="h-6 w-6" />
-          <span className="text-lg font-bold">SubVault</span>
+          <span className="hidden text-lg font-bold sm:inline">SubVault</span>
         </Link>
-        <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-6">
+        <div className="hidden items-center gap-6 sm:absolute sm:left-1/2 sm:flex sm:-translate-x-1/2">
           <Link href="/dashboard" className="hover:underline">Dashboard</Link>
           <Link href="/subscriptions" className="font-semibold underline">Subscriptions</Link>
         </div>
