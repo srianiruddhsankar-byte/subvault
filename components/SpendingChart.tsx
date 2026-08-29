@@ -20,10 +20,10 @@ export default function SpendingChart({
   return (
     <div className="rounded-lg bg-card p-4 shadow-sm">
       <h2 className="mb-4 text-lg font-semibold text-navy">Top Subscriptions by Cost</h2>
-      <ResponsiveContainer width="100%" height={Math.max(200, data.length * 50)}>
-        <BarChart data={data} layout="vertical" margin={{ left: 20 }}>
+            <ResponsiveContainer width="100%" height={Math.max(200, data.length * 50)}>
+        <BarChart data={data} layout="vertical" margin={{ left: 0, right: 12 }}>
           <XAxis type="number" hide />
-          <YAxis type="category" dataKey="name" width={100} tick={{ fontSize: 13 }} />
+          <YAxis type="category" dataKey="name" width={80} tick={{ fontSize: 12 }} />
           <Tooltip formatter={(value) => [formatAmount(Number(value), currency), 'Monthly']} />
           <Bar dataKey="monthly" fill="#1E3A5F" radius={[0, 4, 4, 0]} />
         </BarChart>
