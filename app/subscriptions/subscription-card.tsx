@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { formatAmount } from '@/lib/currencies'
@@ -17,15 +18,14 @@ export default function SubscriptionCard({
   const router = useRouter()
   const supabase = createClient()
   const overdue = isOverdue(sub)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
 
   const handleDelete = async () => {
-    const confirmed = confirm(`Delete ${sub.service_name}? This cannot be undone.`)
-    if (!confirmed) return
-
     const { error } = await supabase.from('subscriptions').delete().eq('id', sub.id)
 
     if (error) {
-      alert('Error deleting: ' + error.message)
+      setDeleteError('Error deleting: ' + error.message)
       return
     }
 
@@ -89,8 +89,8 @@ export default function SubscriptionCard({
           >
             Edit
           </button>
-          <button
-            onClick={handleDelete}
+                    <button
+            onClick={() => setShowDeleteConfirm(true)}
             className="rounded-md border border-alert px-3 py-1 text-sm text-alert hover:bg-alert hover:text-white"
             title="Permanently removes this subscription — use Cancel instead to keep a record"
           >
@@ -101,6 +101,35 @@ export default function SubscriptionCard({
           Cancel via Edit to keep history · Delete removes it permanently
         </p>
       </div>
+
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
+            <h3 className="mb-2 text-lg font-bold text-navy">Delete {sub.service_name}?</h3>
+            <p className="mb-4 text-sm text-gray-500">
+              This permanently removes it from your subscriptions. This cannot be undone.
+            </p>
+            {deleteError && <p className="mb-3 text-sm text-alert">{deleteError}</p>}
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => {
+                  setShowDeleteConfirm(false)
+                  setDeleteError('')
+                }}
+                className="rounded-md border border-gray-300 px-4 py-2 text-sm text-foreground hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="rounded-md bg-alert px-4 py-2 text-sm text-white hover:opacity-90"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
