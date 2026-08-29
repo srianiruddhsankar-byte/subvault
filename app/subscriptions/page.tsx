@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Wallet } from 'lucide-react'
 import { createClient } from '@/lib/supabase-server'
 import UserMenu from '@/components/UserMenu'
-import SubscriptionCard from './subscription-card'
+import SubscriptionList from './subscription-list'
 import Footer from '@/components/Footer'
 
 export default async function SubscriptionsPage() {
@@ -46,12 +46,8 @@ export default async function SubscriptionsPage() {
           </Link>
         </div>
 
-        {subscriptions && subscriptions.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            {subscriptions.map((sub) => (
-              <SubscriptionCard key={sub.id} sub={sub} currency={currency} />
-            ))}
-          </div>
+                {subscriptions && subscriptions.length > 0 ? (
+          <SubscriptionList subscriptions={subscriptions} currency={currency} />
         ) : (
           <div className="rounded-lg bg-card p-8 text-center shadow-sm">
             <p className="text-gray-500">No subscriptions yet.</p>
