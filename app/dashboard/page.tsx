@@ -107,8 +107,12 @@ export default async function DashboardPage() {
                   </div>
                 ))}
               </div>
-            ) : (
-              <p className="text-gray-500">No upcoming renewals.</p>
+                        ) : (
+              <div className="rounded-lg border border-dashed border-navy/20 bg-card p-6 text-center">
+                <p className="text-sm text-gray-500">
+                  Nothing renewing soon — you&apos;re all caught up.
+                </p>
+              </div>
             )}
           </>
         )}
