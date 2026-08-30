@@ -62,6 +62,13 @@ export default function UserMenu({ email }: { email: string }) {
             onClick={() => setOpen(false)}
             className="block px-4 py-2 text-sm text-foreground hover:bg-gray-50"
           >
+           <Link
+            href="/faq"
+            onClick={() => setOpen(false)}
+            className="block px-4 py-2 text-sm text-foreground hover:bg-gray-50 sm:hidden"
+          >
+            FAQ
+          </Link>
             Profile
           </Link>
           <button

@@ -28,6 +28,7 @@ export default async function ProfilePage() {
         <div className="hidden items-center gap-6 sm:absolute sm:left-1/2 sm:flex sm:-translate-x-1/2">
           <Link href="/dashboard" className="hover:underline">Dashboard</Link>
           <Link href="/subscriptions" className="hover:underline">Subscriptions</Link>
+          <Link href="/faq" className="hover:underline">FAQ</Link>
         </div>
         <UserMenu email={user.email!} />
       </nav>
