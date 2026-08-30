@@ -10,8 +10,10 @@ import {
   calculateYearlySpending,
   getUpcomingRenewals,
   getSpendingBreakdown,
+  getCategoryBreakdown,
   formatDate,
 } from '@/lib/subscription-utils'
+import CategoryChart from '@/components/CategoryChart'
 import { formatAmount } from '@/lib/currencies'
 import Footer from '@/components/Footer'
 import SpendingChart from '@/components/SpendingChart'
@@ -37,6 +39,7 @@ export default async function DashboardPage() {
   const activeCount = subs.filter((s) => s.status === 'Active').length
   const upcoming = getUpcomingRenewals(subs)
   const spendingBreakdown = getSpendingBreakdown(subs)
+  const categoryBreakdown = getCategoryBreakdown(subs)
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -52,7 +55,7 @@ export default async function DashboardPage() {
         <UserMenu email={user.email!} />
       </nav>
 
-      <div className="mx-auto w-full max-w-4xl flex-1 px-6 py-10">
+      <div className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
         <h1 className="text-2xl font-bold text-navy">Dashboard</h1>
         {subs.length === 0 && (
           <p className="mb-6 text-sm text-gray-500">
@@ -68,7 +71,8 @@ export default async function DashboardPage() {
           <EmptyDashboardState />
         ) : (
           <>
-            <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {/* Stats strip */}
+            <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Monthly Spending</p>
                 <p className="text-xl font-bold text-navy">{formatAmount(monthlySpending, currency)}</p>
@@ -87,18 +91,23 @@ export default async function DashboardPage() {
               </div>
             </div>
 
-                        {spendingBreakdown.length > 0 && (
-              <div className="mb-8">
-                <SpendingChart data={spendingBreakdown} currency={currency} />
+            {/* Left column: Bar chart + Category chart stacked. Right column: Calendar */}
+            <div className="mb-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
+              <div className="flex flex-col gap-6">
+                {spendingBreakdown.length > 0 && (
+                  <SpendingChart data={spendingBreakdown} currency={currency} />
+                )}
+                {categoryBreakdown.length > 0 && (
+                  <CategoryChart data={categoryBreakdown} currency={currency} />
+                )}
               </div>
-            )}
-
-                        <InsightsGrid subs={subs} currency={currency} />
-
-            <div className="mb-8">
               <RenewalCalendar subs={subs} />
             </div>
 
+            {/* Insights */}
+            <InsightsGrid subs={subs} currency={currency} />
+
+            {/* Upcoming Renewals */}
             <h2 className="mb-4 text-lg font-semibold text-navy">Upcoming Renewals</h2>
             {upcoming.length > 0 ? (
               <div className="flex flex-col gap-2">
@@ -112,7 +121,7 @@ export default async function DashboardPage() {
                   </div>
                 ))}
               </div>
-                        ) : (
+            ) : (
               <div className="rounded-lg border border-dashed border-navy/20 bg-card p-6 text-center">
                 <p className="text-sm text-gray-500">
                   Nothing renewing soon — you&apos;re all caught up.

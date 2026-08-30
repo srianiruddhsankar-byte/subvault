@@ -145,3 +145,17 @@ export function getRenewingThisMonth(subs: Subscription[]) {
   const total = renewing.reduce((sum, s) => sum + s.price, 0)
   return { count: renewing.length, total }
 }
+export function getCategoryBreakdown(subs: Subscription[]) {
+  const active = subs.filter((s) => s.status === 'Active')
+  const totals: Record<string, number> = {}
+
+  for (const s of active) {
+    const category = getCategoryForService(s.service_name)
+    const monthly = s.price / monthsInCycle(s.billing_cycle)
+    totals[category] = (totals[category] || 0) + monthly
+  }
+
+  return Object.entries(totals)
+    .map(([category, monthly]) => ({ name: category, value: monthly }))
+    .sort((a, b) => b.value - a.value)
+}
