@@ -20,16 +20,28 @@ export default function SubscriptionCard({
   const overdue = isOverdue(sub)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleteError, setDeleteError] = useState('')
+  const [showUndoToast, setShowUndoToast] = useState(false)
+  const [undoTimeoutId, setUndoTimeoutId] = useState<NodeJS.Timeout | null>(null)
 
   const handleDelete = async () => {
-    const { error } = await supabase.from('subscriptions').delete().eq('id', sub.id)
+    setShowDeleteConfirm(false)
+    setShowUndoToast(true)
 
-    if (error) {
-      setDeleteError('Error deleting: ' + error.message)
-      return
+    const timeoutId = setTimeout(async () => {
+      const { error } = await supabase.from('subscriptions').delete().eq('id', sub.id)
+      if (!error) {
+        router.refresh()
+      }
+    }, 6000)
+
+    setUndoTimeoutId(timeoutId)
+  }
+
+  const handleUndo = () => {
+    if (undoTimeoutId) {
+      clearTimeout(undoTimeoutId)
     }
-
-    router.refresh()
+    setShowUndoToast(false)
   }
 
   const handleRenew = async () => {
@@ -101,6 +113,17 @@ export default function SubscriptionCard({
           Cancel via Edit to keep history · Delete removes it permanently
         </p>
       </div>
+      {showUndoToast && (
+        <div className="fixed bottom-8 left-1/2 z-50 flex w-[90%] max-w-sm -translate-x-1/2 items-center justify-between gap-4 rounded-lg bg-navy px-6 py-4 text-white shadow-xl">
+          <span className="text-base">{sub.service_name} deleted</span>
+          <button
+            onClick={handleUndo}
+            className="rounded-md bg-green px-4 py-1.5 text-sm font-semibold text-white hover:opacity-90"
+          >
+            Undo
+          </button>
+        </div>
+      )}
 
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
