@@ -25,10 +25,10 @@ export default async function ProfilePage() {
           <Wallet className="h-6 w-6" />
           <span className="hidden text-lg font-bold sm:inline">SubVault</span>
         </Link>
-        <div className="hidden items-center gap-6 sm:absolute sm:left-1/2 sm:flex sm:-translate-x-1/2">
-          <Link href="/dashboard" className="hover:underline">Dashboard</Link>
-          <Link href="/subscriptions" className="hover:underline">Subscriptions</Link>
-          <Link href="/faq" className="hover:underline">FAQ</Link>
+        <div className="hidden items-center gap-1 sm:absolute sm:left-1/2 sm:flex sm:-translate-x-1/2">
+          <Link href="/dashboard" className="rounded-md px-3 py-1.5 text-base text-white/80 transition hover:bg-white/15 hover:text-white">Dashboard</Link>
+          <Link href="/subscriptions" className="rounded-md px-3 py-1.5 text-base text-white/80 transition hover:bg-white/15 hover:text-white">Subscriptions</Link>
+          <Link href="/faq" className="rounded-md px-3 py-1.5 text-base text-white/80 transition hover:bg-white/15 hover:text-white">FAQ</Link>
         </div>
         <UserMenu email={user.email!} />
       </nav>

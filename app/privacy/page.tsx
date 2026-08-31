@@ -21,6 +21,11 @@ export default async function PrivacyPolicyPage() {
               subscription details you choose to enter (service name, price, billing
               cycle, and renewal date). We use basic analytics (Vercel Analytics) to
               understand how the site is used.
+               <p className="mt-2 text-sm leading-relaxed">
+              We use Vercel Analytics to understand aggregate site usage (like page
+              views), which does not use tracking cookies or collect personally
+              identifiable information.
+            </p>
             </p>
           </section>
 
