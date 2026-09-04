@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { Search } from 'lucide-react'
 import SubscriptionCard from './subscription-card'
 import type { Subscription } from '@/lib/types'
 
@@ -16,12 +17,18 @@ export default function SubscriptionList({
 }) {
   const [sortBy, setSortBy] = useState<SortOption>('renewal_date')
   const [filterBy, setFilterBy] = useState<FilterOption>('All')
+  const [query, setQuery] = useState('')
 
   const filteredAndSorted = useMemo(() => {
     let result = [...subscriptions]
 
     if (filterBy !== 'All') {
       result = result.filter((s) => s.status === filterBy)
+    }
+
+    if (query.trim() !== '') {
+      const q = query.trim().toLowerCase()
+      result = result.filter((s) => s.service_name.toLowerCase().includes(q))
     }
 
     result.sort((a, b) => {
@@ -39,11 +46,22 @@ export default function SubscriptionList({
     })
 
     return result
-  }, [subscriptions, sortBy, filterBy])
+  }, [subscriptions, sortBy, filterBy, query])
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap gap-3">
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[180px]">
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search subscriptions..."
+            className="w-full rounded-md border border-gray-300 py-1.5 pl-8 pr-3 text-sm focus:border-navy focus:outline-none"
+          />
+        </div>
+
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as SortOption)}
@@ -74,7 +92,11 @@ export default function SubscriptionList({
         </div>
       ) : (
         <div className="rounded-lg bg-card p-8 text-center shadow-sm">
-          <p className="text-gray-500">No subscriptions match this filter.</p>
+          <p className="text-gray-500">
+            {query.trim() !== ''
+              ? `No subscriptions match "${query}".`
+              : 'No subscriptions match this filter.'}
+          </p>
         </div>
       )}
     </div>
