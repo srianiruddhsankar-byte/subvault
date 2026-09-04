@@ -20,7 +20,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-            <nav className="relative flex items-center justify-between bg-navy px-4 py-4 text-white sm:px-6">
+      <nav className="relative flex items-center justify-between bg-navy px-4 py-4 text-white sm:px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
           <Wallet className="h-6 w-6" />
           <span className="hidden text-lg font-bold sm:inline">SubVault</span>
@@ -34,7 +34,7 @@ export default async function ProfilePage() {
       </nav>
 
       <div className="mx-auto max-w-4xl px-6 py-10">
-        <div className="max-w-sm rounded-lg bg-card p-8 shadow-sm">
+        <div className="mx-auto max-w-sm rounded-lg bg-card p-8 shadow-sm">
           <h1 className="mb-4 text-2xl font-bold text-navy">Profile</h1>
           <p className="mb-6 text-foreground">{user.email}</p>
 

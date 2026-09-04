@@ -12,24 +12,32 @@ export default function CurrencySelector({
   const [currency, setCurrency] = useState(currentCurrency)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [error, setError] = useState('')
 
   const supabase = createClient()
 
   const handleChange = async (newCurrency: CurrencyCode) => {
+    const previousCurrency = currency
+
     setCurrency(newCurrency)
     setSaving(true)
     setSaved(false)
+    setError('')
 
-    const { error } = await supabase.auth.updateUser({
+    const { error: saveError } = await supabase.auth.updateUser({
       data: { currency: newCurrency },
     })
 
     setSaving(false)
 
-    if (!error) {
-      setSaved(true)
-      setTimeout(() => setSaved(false), 2000)
+    if (saveError) {
+      setCurrency(previousCurrency)
+      setError('Could not save. Please try again.')
+      return
     }
+
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
   }
 
   return (
@@ -48,6 +56,7 @@ export default function CurrencySelector({
       </select>
       {saving && <p className="mt-1 text-xs text-gray-400">Saving...</p>}
       {saved && <p className="mt-1 text-xs text-green">Saved</p>}
+      {error && <p className="mt-1 text-xs text-alert">{error}</p>}
     </div>
   )
 }

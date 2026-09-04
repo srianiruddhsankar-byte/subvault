@@ -4,6 +4,7 @@ import { Wallet } from 'lucide-react'
 import { createClient } from '@/lib/supabase-server'
 import InsightsGrid from '@/components/InsightsGrid'
 import RenewalCalendar from '@/components/RenewalCalendar'
+import UpcomingRenewals from '@/components/UpcomingRenewals'
 import UserMenu from '@/components/UserMenu'
 import {
   calculateMonthlySpending,
@@ -11,7 +12,6 @@ import {
   getUpcomingRenewals,
   getSpendingBreakdown,
   getCategoryBreakdown,
-  formatDate,
 } from '@/lib/subscription-utils'
 import CategoryChart from '@/components/CategoryChart'
 import { formatAmount } from '@/lib/currencies'
@@ -109,26 +109,7 @@ export default async function DashboardPage() {
             <InsightsGrid subs={subs} currency={currency} />
 
             {/* Upcoming Renewals */}
-            <h2 className="mb-4 text-lg font-semibold text-navy">Upcoming Renewals</h2>
-            {upcoming.length > 0 ? (
-              <div className="flex flex-col gap-2">
-                {upcoming.map((sub) => (
-                  <div
-                    key={sub.id}
-                    className="flex justify-between rounded-lg bg-card p-4 shadow-sm"
-                  >
-                    <span className="text-base font-semibold text-navy">{sub.service_name}</span>
-                    <span className="text-sm text-gray-400">{formatDate(sub.renewal_date)}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-lg border border-dashed border-navy/20 bg-card p-6 text-center">
-                <p className="text-sm text-gray-500">
-                  Nothing renewing soon — you&apos;re all caught up.
-                </p>
-              </div>
-            )}
+            <UpcomingRenewals subs={upcoming} />
           </>
         )}
       </div>

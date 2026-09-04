@@ -27,8 +27,11 @@ export function calculateYearlySpending(subs: Subscription[]): number {
     .reduce((total, s) => total + (s.price / monthsInCycle(s.billing_cycle)) * 12, 0)
 }
 
+// Only future (or today) renewal dates — "Upcoming" means upcoming.
+// Overdue/missed ones are surfaced elsewhere (the calendar), not here.
 export function getUpcomingRenewals(subs: Subscription[], limit = 5) {
   const today = new Date()
+  today.setHours(0, 0, 0, 0)
   return subs
     .filter((s) => s.status === 'Active' && new Date(s.renewal_date) >= today)
     .sort((a, b) => new Date(a.renewal_date).getTime() - new Date(b.renewal_date).getTime())
@@ -52,11 +55,29 @@ export function formatDate(dateString: string): string {
   const year = date.getFullYear()
   return `${day} ${month} ${year}`
 }
+
 export function isOverdue(sub: Subscription): boolean {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   const renewalDate = new Date(sub.renewal_date)
   return sub.status === 'Active' && renewalDate < today
+}
+
+// 4 urgency tiers based on days-until-renewal.
+export type RenewalUrgency = 'urgent' | 'soon' | 'upcoming' | 'safe'
+
+export function getRenewalUrgency(renewalDate: string): RenewalUrgency {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const date = new Date(renewalDate)
+  date.setHours(0, 0, 0, 0)
+
+  const diffDays = Math.round((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+
+  if (diffDays <= 3) return 'urgent'
+  if (diffDays <= 7) return 'soon'
+  if (diffDays <= 30) return 'upcoming'
+  return 'safe'
 }
 
 export function getNextRenewalDate(currentDate: string, billingCycle: string): string {
@@ -74,6 +95,7 @@ export function getNextRenewalDate(currentDate: string, billingCycle: string): s
 
   return result.toISOString().split('T')[0] // yyyy-mm-dd for Supabase
 }
+
 import knownServices from './known-services.json'
 
 function getCategoryForService(serviceName: string): string {
@@ -117,6 +139,7 @@ export function getTopCategory(subs: Subscription[]) {
 
   return { category: sorted[0][0], monthly: sorted[0][1] }
 }
+
 export function getRenewingThisWeek(subs: Subscription[]) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -132,6 +155,7 @@ export function getRenewingThisWeek(subs: Subscription[]) {
   const total = renewing.reduce((sum, s) => sum + s.price, 0)
   return { count: renewing.length, total }
 }
+
 export function getRenewingThisMonth(subs: Subscription[]) {
   const today = new Date()
   const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
@@ -145,6 +169,7 @@ export function getRenewingThisMonth(subs: Subscription[]) {
   const total = renewing.reduce((sum, s) => sum + s.price, 0)
   return { count: renewing.length, total }
 }
+
 export function getCategoryBreakdown(subs: Subscription[]) {
   const active = subs.filter((s) => s.status === 'Active')
   const totals: Record<string, number> = {}

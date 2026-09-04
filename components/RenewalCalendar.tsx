@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Subscription } from '@/lib/types'
+import { getRenewalUrgency } from '@/lib/subscription-utils'
+import { urgencyStyles } from '@/lib/renewal-styles'
 
 export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
   const today = new Date()
@@ -28,7 +30,7 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
   const firstDayOfMonth = new Date(year, month, 1)
   const lastDayOfMonth = new Date(year, month + 1, 0)
   const daysInMonth = lastDayOfMonth.getDate()
-  const startWeekday = firstDayOfMonth.getDay() // 0 = Sunday
+  const startWeekday = firstDayOfMonth.getDay()
 
   const activeSubs = subs.filter((s) => s.status === 'Active')
 
@@ -42,7 +44,7 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
     }
   }
 
-    const monthName = viewDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })
+  const monthName = viewDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })
   const weekdayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
   const cells: (number | null)[] = []
@@ -51,7 +53,7 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
 
   return (
     <div className="rounded-lg bg-card p-4 shadow-sm">
-            <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <button
           onClick={goToPrevMonth}
           disabled={!canGoBack}
@@ -77,30 +79,35 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
       </div>
       <div className="grid grid-cols-7 gap-1">
         {cells.map((day, i) => {
-                    const isToday =
+          const isToday =
             day === today.getDate() &&
             year === today.getFullYear() &&
             month === today.getMonth()
           const renewals = day ? renewalsByDay[day] : undefined
+
+          const dayStyle =
+            renewals && renewals.length > 0 ? urgencyStyles[getRenewalUrgency(renewals[0].renewal_date)] : null
 
           return (
             <div
               key={i}
               className={`min-h-[64px] rounded-md border p-1 text-xs ${
                 day
-                  ? renewals && renewals.length > 0
-                    ? 'border-green bg-green/20'
-                    : isToday
-                      ? 'border-navy bg-navy/5'
-                      : 'border-gray-100'
+                  ? dayStyle
+                    ? `${dayStyle.border} ${dayStyle.bg}`
+                    : 'border-gray-100'
                   : 'border-transparent'
-              }`}
+              } ${isToday ? 'border-2 border-navy shadow-md' : ''}`}
             >
               {day && (
                 <>
                   <div className={isToday ? 'font-bold text-navy' : 'text-gray-500'}>
                     <div>{day}</div>
-                    {isToday && <div className="text-center text-[9px] font-normal">Today</div>}
+                    {isToday && (
+                      <div className="text-center text-[9px] font-bold uppercase tracking-wide text-navy">
+                        Today
+                      </div>
+                    )}
                   </div>
                   {renewals && renewals.length > 0 && (
                     <div className="mt-1 flex flex-col gap-0.5">
