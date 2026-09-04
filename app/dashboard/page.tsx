@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase-server'
 import InsightsGrid from '@/components/InsightsGrid'
 import RenewalCalendar from '@/components/RenewalCalendar'
 import UpcomingRenewals from '@/components/UpcomingRenewals'
+import RenewalBanner from '@/components/RenewalBanner'
 import UserMenu from '@/components/UserMenu'
 import {
   calculateMonthlySpending,
@@ -37,6 +38,7 @@ export default async function DashboardPage() {
   const monthlySpending = calculateMonthlySpending(subs)
   const yearlySpending = calculateYearlySpending(subs)
   const activeCount = subs.filter((s) => s.status === 'Active').length
+  const totalCount = subs.length
   const upcoming = getUpcomingRenewals(subs)
   const spendingBreakdown = getSpendingBreakdown(subs)
   const categoryBreakdown = getCategoryBreakdown(subs)
@@ -57,7 +59,10 @@ export default async function DashboardPage() {
       </nav>
 
       <div className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
-        <h1 className="text-2xl font-bold text-navy">Dashboard</h1>
+        <h1 className="mb-6 text-2xl font-bold text-navy">Dashboard</h1>
+
+        {subs.length > 0 && <RenewalBanner subs={subs} />}
+
         {subs.length === 0 && (
           <p className="mb-6 text-sm text-gray-500">
             Track your subscriptions and see what you&apos;re spending. Head to{' '}
@@ -73,7 +78,7 @@ export default async function DashboardPage() {
         ) : (
           <>
             {/* Stats strip */}
-            <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Monthly Spending</p>
                 <p className="text-xl font-bold text-navy">{formatAmount(monthlySpending, currency)}</p>
@@ -85,6 +90,10 @@ export default async function DashboardPage() {
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Active Subscriptions</p>
                 <p className="text-xl font-bold text-green">{activeCount}</p>
+              </div>
+              <div className="rounded-lg bg-card p-4 shadow-sm">
+                <p className="text-sm text-gray-500">Total Subscriptions</p>
+                <p className="text-xl font-bold text-navy">{totalCount}</p>
               </div>
               <div className="rounded-lg bg-card p-4 shadow-sm">
                 <p className="text-sm text-gray-500">Upcoming Renewals</p>
