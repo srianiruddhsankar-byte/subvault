@@ -31,8 +31,8 @@ export default function AddSubscriptionForm() {
     }
 
     const parsedPrice = parseFloat(price)
-    if (isNaN(parsedPrice) || parsedPrice <= 0) {
-      return 'Price must be a positive number.'
+    if (isNaN(parsedPrice) || parsedPrice < 0) {
+      return 'Price cannot be negative. Enter 0 for a free subscription.'
     }
 
     if (!renewalDate) {
@@ -104,12 +104,13 @@ export default function AddSubscriptionForm() {
         <input
           type="number"
           step="0.01"
-          min="0.01"
+          min="0"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         />
+        <p className="mt-1 text-xs text-gray-400">Enter 0 if this subscription is free.</p>
       </div>
       <div>
         <label className="mb-1 block text-sm text-foreground">Billing Cycle</label>
