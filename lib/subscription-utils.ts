@@ -29,13 +29,14 @@ export function calculateYearlySpending(subs: Subscription[]): number {
 
 // Only future (or today) renewal dates — "Upcoming" means upcoming.
 // Overdue/missed ones are surfaced elsewhere (the calendar), not here.
-export function getUpcomingRenewals(subs: Subscription[], limit = 5) {
+export function getUpcomingRenewals(subs: Subscription[], limit?: number) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  return subs
+  const result = subs
     .filter((s) => s.status === 'Active' && new Date(s.renewal_date) >= today)
     .sort((a, b) => new Date(a.renewal_date).getTime() - new Date(b.renewal_date).getTime())
-    .slice(0, limit)
+
+  return limit ? result.slice(0, limit) : result
 }
 
 export function getSpendingBreakdown(subs: Subscription[]) {
@@ -94,6 +95,17 @@ export function getNextRenewalDate(currentDate: string, billingCycle: string): s
   result.setMonth(result.getMonth() + monthsToAdd)
 
   return result.toISOString().split('T')[0] // yyyy-mm-dd for Supabase
+}
+export function isRenewalDateTooFarInPast(renewalDate: string, billingCycle: string): boolean {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const date = new Date(renewalDate)
+  date.setHours(0, 0, 0, 0)
+
+  const earliestAllowed = new Date(today)
+  earliestAllowed.setMonth(earliestAllowed.getMonth() - monthsInCycle(billingCycle))
+
+  return date < earliestAllowed
 }
 
 import knownServices from './known-services.json'

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import ServiceAutocomplete from '@/components/ServiceAutocomplete'
 import { KnownService } from '@/lib/search-services'
+import { isRenewalDateTooFarInPast } from '@/lib/subscription-utils'
 
 type Subscription = {
   id: string
@@ -34,15 +35,43 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
     }
   }
 
+  const validate = (): string | null => {
+    if (!serviceName.trim()) {
+      return 'Service name is required.'
+    }
+
+    const parsedPrice = parseFloat(price)
+    if (isNaN(parsedPrice) || parsedPrice < 0) {
+      return 'Price cannot be negative. Enter 0 for a free subscription.'
+    }
+
+    if (!renewalDate) {
+      return 'Renewal date is required.'
+    }
+
+    if (isRenewalDateTooFarInPast(renewalDate, billingCycle)) {
+      return `Renewal date is too far in the past for a ${billingCycle} subscription.`
+    }
+
+    return null
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+
+    const validationError = validate()
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
     setLoading(true)
 
     const { error } = await supabase
       .from('subscriptions')
       .update({
-        service_name: serviceName,
+        service_name: serviceName.trim(),
         price: parseFloat(price),
         billing_cycle: billingCycle,
         renewal_date: renewalDate,
@@ -54,7 +83,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
     setLoading(false)
 
     if (error) {
-      setError(error.message)
+      setError('Something went wrong saving your changes. Please try again.')
       return
     }
 
@@ -77,15 +106,17 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
         <input
           type="number"
           step="0.01"
+          min="0"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         />
+        <p className="mt-1 text-xs text-gray-400">Enter 0 if this subscription is free.</p>
       </div>
       <div>
         <label className="mb-1 block text-sm text-foreground">Billing Cycle</label>
-          <select
+        <select
           value={billingCycle}
           onChange={(e) => setBillingCycle(e.target.value)}
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"

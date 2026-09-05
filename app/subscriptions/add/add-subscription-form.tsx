@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import ServiceAutocomplete from '@/components/ServiceAutocomplete'
 import { KnownService } from '@/lib/search-services'
+import { isRenewalDateTooFarInPast } from '@/lib/subscription-utils'
 
 export default function AddSubscriptionForm() {
   const [serviceName, setServiceName] = useState('')
@@ -39,11 +40,8 @@ export default function AddSubscriptionForm() {
       return 'Renewal date is required.'
     }
 
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const selectedDate = new Date(renewalDate)
-    if (selectedDate < today) {
-      return 'Renewal date cannot be in the past.'
+    if (isRenewalDateTooFarInPast(renewalDate, billingCycle)) {
+      return `Renewal date is too far in the past for a ${billingCycle} subscription.`
     }
 
     return null
