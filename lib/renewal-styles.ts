@@ -34,3 +34,4 @@ export const urgencyStyles: Record<
     icon: CheckCircle2,
   },
 }
+export const trialColor = '#8B5CF6'

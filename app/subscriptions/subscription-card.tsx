@@ -22,6 +22,9 @@ export default function SubscriptionCard({
   const [deleteError, setDeleteError] = useState('')
   const [showUndoToast, setShowUndoToast] = useState(false)
   const [undoTimeoutId, setUndoTimeoutId] = useState<NodeJS.Timeout | null>(null)
+  const [showTrialChoice, setShowTrialChoice] = useState(false)
+  const [extendDate, setExtendDate] = useState('')
+  const [trialActionError, setTrialActionError] = useState('')
 
   const handleDelete = async () => {
     setShowDeleteConfirm(false)
@@ -44,6 +47,14 @@ export default function SubscriptionCard({
     setShowUndoToast(false)
   }
 
+  const handleRenewClick = () => {
+    if (sub.is_trial) {
+      setShowTrialChoice(true)
+      return
+    }
+    handleRenew()
+  }
+
   const handleRenew = async () => {
     const nextDate = getNextRenewalDate(sub.renewal_date, sub.billing_cycle)
 
@@ -57,6 +68,44 @@ export default function SubscriptionCard({
       return
     }
 
+    router.refresh()
+  }
+
+  const handleConvertToPaid = async () => {
+    const nextDate = getNextRenewalDate(sub.renewal_date, sub.billing_cycle)
+
+    const { error } = await supabase
+      .from('subscriptions')
+      .update({ renewal_date: nextDate, is_trial: false, updated_at: new Date().toISOString() })
+      .eq('id', sub.id)
+
+    if (error) {
+      setTrialActionError('Something went wrong. Please try again.')
+      return
+    }
+
+    setShowTrialChoice(false)
+    router.refresh()
+  }
+
+  const handleExtendTrial = async () => {
+    if (!extendDate) {
+      setTrialActionError('Please pick a new trial end date.')
+      return
+    }
+
+    const { error } = await supabase
+      .from('subscriptions')
+      .update({ renewal_date: extendDate, updated_at: new Date().toISOString() })
+      .eq('id', sub.id)
+
+    if (error) {
+      setTrialActionError('Something went wrong. Please try again.')
+      return
+    }
+
+    setShowTrialChoice(false)
+    setExtendDate('')
     router.refresh()
   }
 
@@ -86,7 +135,10 @@ export default function SubscriptionCard({
             </span>
           )}
           {sub.is_trial && (
-            <span className="inline-block rounded-full bg-[#F59E0B]/10 px-2 py-0.5 text-xs font-medium text-[#F59E0B]">
+            <span
+              className="inline-block rounded-full px-2 py-0.5 text-xs font-medium"
+              style={{ backgroundColor: '#8B5CF61A', color: '#8B5CF6' }}
+            >
               Trial ends {formatDate(sub.renewal_date)}
             </span>
           )}
@@ -99,7 +151,7 @@ export default function SubscriptionCard({
         <div className="flex gap-2">
           {overdue && (
             <button
-              onClick={handleRenew}
+              onClick={handleRenewClick}
               className="rounded-md bg-green px-3 py-1 text-sm text-white hover:opacity-90"
             >
               Renew
@@ -124,6 +176,7 @@ export default function SubscriptionCard({
           Cancel via Edit to keep history · Delete removes it permanently
         </p>
       </div>
+
       {showUndoToast && (
         <div className="fixed bottom-8 left-1/2 z-50 flex w-[90%] max-w-sm -translate-x-1/2 items-center justify-between gap-4 rounded-lg bg-navy px-6 py-4 text-white shadow-xl">
           <span className="text-base">{sub.service_name} deleted</span>
@@ -164,6 +217,55 @@ export default function SubscriptionCard({
                 Delete
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showTrialChoice && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
+            <h3 className="mb-2 text-lg font-bold text-navy">{sub.service_name}&apos;s trial has ended</h3>
+            <p className="mb-4 text-sm text-gray-500">
+              Did you start paying for this, or do you want more time to decide?
+            </p>
+
+            {trialActionError && <p className="mb-3 text-sm text-alert">{trialActionError}</p>}
+
+            <button
+              onClick={handleConvertToPaid}
+              className="mb-3 w-full rounded-md bg-navy px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+            >
+              I&apos;m paying for it now — mark as paid subscription
+            </button>
+
+            <div className="rounded-md border border-gray-200 p-3">
+              <label className="mb-1 block text-xs text-gray-500">Or extend the trial to:</label>
+              <input
+                type="date"
+                value={extendDate}
+                onChange={(e) => setExtendDate(e.target.value)}
+                className="mb-2 w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-navy focus:outline-none"
+              />
+              <button
+                onClick={handleExtendTrial}
+                className="w-full rounded-md border border-navy px-4 py-1.5 text-sm text-navy hover:bg-navy hover:text-white"
+              >
+                Extend Trial
+              </button>
+            </div>
+
+            <button
+              onClick={() => {
+                setShowTrialChoice(false)
+                setTrialActionError('')
+              }}
+              className="mt-3 w-full text-center text-xs text-gray-400 hover:text-gray-600"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}

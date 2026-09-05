@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Subscription } from '@/lib/types'
 import { getRenewalUrgency } from '@/lib/subscription-utils'
-import { urgencyStyles } from '@/lib/renewal-styles'
+import { urgencyStyles, trialColor } from '@/lib/renewal-styles'
 
 export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
   const today = new Date()
@@ -85,6 +85,7 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
             month === today.getMonth()
           const renewals = day ? renewalsByDay[day] : undefined
 
+          const hasTrial = renewals?.some((sub) => sub.is_trial)
           const dayStyle =
             renewals && renewals.length > 0 ? urgencyStyles[getRenewalUrgency(renewals[0].renewal_date)] : null
 
@@ -93,11 +94,18 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
               key={i}
               className={`min-h-[64px] rounded-md border p-1 text-xs ${
                 day
-                  ? dayStyle
-                    ? `${dayStyle.border} ${dayStyle.bg}`
-                    : 'border-gray-100'
+                  ? hasTrial
+                    ? ''
+                    : dayStyle
+                      ? `${dayStyle.border} ${dayStyle.bg}`
+                      : 'border-gray-100'
                   : 'border-transparent'
               } ${isToday ? 'border-2 border-navy shadow-md' : ''}`}
+              style={
+                day && hasTrial && !isToday
+                  ? { borderColor: trialColor, backgroundColor: `${trialColor}26` }
+                  : undefined
+              }
             >
               {day && (
                 <>
@@ -117,7 +125,7 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
                           className="block whitespace-normal break-words text-[10px] font-bold leading-tight text-navy"
                         >
                           {sub.service_name}
-                          {sub.is_trial && <span className="text-[#F59E0B]"> · Trial</span>}
+                          {sub.is_trial && <span style={{ color: trialColor }}> · Trial</span>}
                         </span>
                       ))}
                       {renewals.length > 2 && (

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import type { Subscription } from '@/lib/types'
 import { formatDate, getRenewalUrgency } from '@/lib/subscription-utils'
-import { urgencyStyles } from '@/lib/renewal-styles'
+import { urgencyStyles, trialColor } from '@/lib/renewal-styles'
 
 export default function UpcomingRenewals({ subs }: { subs: Subscription[] }) {
   const [showLegend, setShowLegend] = useState(false)
@@ -33,7 +33,7 @@ export default function UpcomingRenewals({ subs }: { subs: Subscription[] }) {
                   </div>
                 ))}
                 <div className="mt-1 flex items-center gap-2 border-t border-gray-100 pt-2 text-xs text-foreground">
-                  <Sparkles className="h-3 w-3 shrink-0 text-[#F59E0B]" />
+                  <Sparkles className="h-3 w-3 shrink-0" style={{ color: trialColor }} />
                   Free trial converting to paid
                 </div>
               </div>
@@ -53,20 +53,29 @@ export default function UpcomingRenewals({ subs }: { subs: Subscription[] }) {
               return (
                 <div
                   key={sub.id}
-                  className="flex items-center justify-between rounded-lg border border-[#F59E0B] bg-[#F59E0B]/15 p-4 shadow-sm"
+                  className="flex items-center justify-between rounded-lg border p-4 shadow-sm"
+                  style={{ borderColor: trialColor, backgroundColor: `${trialColor}26` }}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F59E0B]">
+                    <span
+                      className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+                      style={{ backgroundColor: trialColor }}
+                    >
                       <Sparkles className="h-3.5 w-3.5 text-white" />
                     </span>
                     <div>
                       <span className="text-base font-semibold text-navy">{sub.service_name}</span>
-                      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#F59E0B]">
+                      <p
+                        className="text-[10px] font-semibold uppercase tracking-wide"
+                        style={{ color: trialColor }}
+                      >
                         Free Trial Ending
                       </p>
                     </div>
                   </div>
-                  <span className="text-sm font-semibold text-[#F59E0B]">{formatDate(sub.renewal_date)}</span>
+                  <span className="text-sm font-semibold" style={{ color: trialColor }}>
+                    {formatDate(sub.renewal_date)}
+                  </span>
                 </div>
               )
             }

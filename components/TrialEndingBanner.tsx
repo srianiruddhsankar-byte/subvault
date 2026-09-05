@@ -8,6 +8,7 @@ import { getRenewalUrgency, formatDate } from '@/lib/subscription-utils'
 import { formatAmount } from '@/lib/currencies'
 
 const DISMISS_KEY = 'trialBannerDismissedDate'
+const TRIAL_COLOR = '#8B5CF6'
 
 export default function TrialEndingBanner({
   subs,
@@ -41,9 +42,12 @@ export default function TrialEndingBanner({
   if (!mounted || dismissed || endingTrials.length === 0) return null
 
   return (
-    <div className="mb-6 flex items-start justify-between gap-3 rounded-lg border border-[#F59E0B]/40 bg-[#F59E0B]/10 p-4">
+    <div
+      className="mb-6 flex items-start justify-between gap-3 rounded-lg border p-4"
+      style={{ borderColor: `${TRIAL_COLOR}66`, backgroundColor: `${TRIAL_COLOR}1A` }}
+    >
       <div className="flex items-start gap-3">
-        <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-[#F59E0B]" />
+        <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" style={{ color: TRIAL_COLOR }} />
         <div>
           <p className="text-sm font-semibold text-navy">
             {endingTrials.length === 1
