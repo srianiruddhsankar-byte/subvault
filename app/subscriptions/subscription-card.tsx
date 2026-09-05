@@ -61,7 +61,10 @@ export default function SubscriptionCard({
   }
 
   return (
-    <div className="flex items-center justify-between rounded-lg bg-card p-4 shadow-sm">
+    <div
+      onClick={() => router.push(`/subscriptions/${sub.id}`)}
+      className="flex cursor-pointer items-center justify-between rounded-lg bg-card p-4 shadow-sm transition hover:bg-navy/5"
+    >
       <div>
         <p className="mb-1 text-xl font-bold leading-tight text-navy">{sub.service_name}</p>
         <p className="text-sm text-gray-400">
@@ -84,7 +87,10 @@ export default function SubscriptionCard({
           )}
         </div>
       </div>
-            <div className="flex flex-col items-end gap-1">
+      <div
+        className="flex flex-col items-end gap-1"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex gap-2">
           {overdue && (
             <button
@@ -101,7 +107,7 @@ export default function SubscriptionCard({
           >
             Edit
           </button>
-                    <button
+          <button
             onClick={() => setShowDeleteConfirm(true)}
             className="rounded-md border border-alert px-3 py-1 text-sm text-alert hover:bg-alert hover:text-white"
             title="Permanently removes this subscription — use Cancel instead to keep a record"
@@ -126,7 +132,10 @@ export default function SubscriptionCard({
       )}
 
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
             <h3 className="mb-2 text-lg font-bold text-navy">Delete {sub.service_name}?</h3>
             <p className="mb-4 text-sm text-gray-500">

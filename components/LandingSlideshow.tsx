@@ -30,14 +30,14 @@ const slides = [
     body: 'No ads, no selling your data. SubVault exists to help you track spending — nothing else.',
   },
 ]
-
+   
 export default function LandingSlideshow() {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length)
-    }, 5000)
+  setIndex((prev) => (prev + 1) % slides.length)
+    }, 6000)
     return () => clearInterval(timer)
   }, [])
 

@@ -16,6 +16,7 @@ type Subscription = {
   renewal_date: string
   status: string
   category: string
+  notes: string | null
 }
 
 export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
@@ -25,6 +26,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
   const [renewalDate, setRenewalDate] = useState(sub.renewal_date)
   const [status, setStatus] = useState(sub.status)
   const [category, setCategory] = useState(sub.category || 'Other')
+  const [notes, setNotes] = useState(sub.notes || '')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -83,6 +85,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
         renewal_date: renewalDate,
         status: status,
         category: category,
+        notes: notes.trim() || null,
         updated_at: new Date().toISOString(),
       })
       .eq('id', sub.id)
@@ -169,6 +172,16 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
           <option value="Active">Active</option>
           <option value="Cancelled">Cancelled</option>
         </select>
+      </div>
+      <div>
+        <label className="mb-1 block text-sm text-foreground">Notes (optional)</label>
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          rows={3}
+          placeholder="e.g. Shared with family, cancel before renewal, etc."
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+        />
       </div>
       {error && <p className="text-sm text-alert">{error}</p>}
       <button

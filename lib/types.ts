@@ -7,4 +7,5 @@ export type Subscription = {
   renewal_date: string
   status: string
   category: string
+  notes: string | null
 }
