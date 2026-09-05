@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Search } from 'lucide-react'
+import { Search, Download } from 'lucide-react'
 import SubscriptionCard from './subscription-card'
 import type { Subscription } from '@/lib/types'
+import { exportSubscriptionsToCSV } from '@/lib/export-csv'
 
 type SortOption = 'renewal_date' | 'price_high' | 'price_low' | 'name'
 type FilterOption = 'All' | 'Active' | 'Cancelled'
@@ -48,6 +49,10 @@ export default function SubscriptionList({
     return result
   }, [subscriptions, sortBy, filterBy, query])
 
+  const handleExport = () => {
+    exportSubscriptionsToCSV(filteredAndSorted)
+  }
+
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -82,6 +87,15 @@ export default function SubscriptionList({
           <option value="Active">Active Only</option>
           <option value="Cancelled">Cancelled Only</option>
         </select>
+
+        <button
+          onClick={handleExport}
+          disabled={filteredAndSorted.length === 0}
+          className="flex items-center gap-1.5 rounded-md border border-navy/30 px-3 py-1.5 text-sm text-navy hover:bg-navy/5 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <Download className="h-4 w-4" />
+          Export CSV
+        </button>
       </div>
 
       {filteredAndSorted.length > 0 ? (
