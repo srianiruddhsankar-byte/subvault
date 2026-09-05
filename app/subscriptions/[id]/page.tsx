@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import { formatAmount } from '@/lib/currencies'
 import { formatDate, isOverdue } from '@/lib/subscription-utils'
 import knownServices from '@/lib/known-services.json'
+import NotesEditor from './notes-editor'
 
 export default async function SubscriptionDetailsPage({
   params,
@@ -103,6 +104,11 @@ export default async function SubscriptionDetailsPage({
                     Overdue
                   </span>
                 )}
+                {sub.is_trial && (
+                  <span className="rounded-full bg-[#F59E0B]/15 px-2 py-0.5 text-xs font-medium text-[#F59E0B]">
+                    Trial
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -154,6 +160,12 @@ export default async function SubscriptionDetailsPage({
               </p>
               <p className="mt-1 text-lg font-bold text-navy">{sub.category || 'Other'}</p>
             </div>
+            {sub.is_trial && (
+              <div className="rounded-lg bg-[#F59E0B]/10 p-4">
+                <p className="text-xs text-gray-500">Trial Ends</p>
+                <p className="mt-1 text-lg font-bold text-[#F59E0B]">{formatDate(sub.renewal_date)}</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -163,19 +175,7 @@ export default async function SubscriptionDetailsPage({
             <RefreshCw className="h-4 w-4" />
             Notes
           </h2>
-          {sub.notes ? (
-            <p className="whitespace-pre-wrap rounded-lg bg-navy/5 p-4 text-sm text-foreground">
-              {sub.notes}
-            </p>
-          ) : (
-            <p className="text-sm text-gray-400">
-              No notes yet.{' '}
-              <Link href={`/subscriptions/edit/${sub.id}`} className="text-navy underline">
-                Add one
-              </Link>
-              .
-            </p>
-          )}
+          <NotesEditor subId={sub.id} initialNotes={sub.notes} />
         </div>
       </div>
       <Footer />

@@ -15,6 +15,7 @@ export default function AddSubscriptionForm() {
   const [renewalDate, setRenewalDate] = useState('')
   const [status, setStatus] = useState('Active')
   const [category, setCategory] = useState('Other')
+  const [isTrial, setIsTrial] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -80,6 +81,7 @@ export default function AddSubscriptionForm() {
       renewal_date: renewalDate,
       status: status,
       category: category,
+      is_trial: isTrial,
     })
 
     setLoading(false)
@@ -145,7 +147,9 @@ export default function AddSubscriptionForm() {
         </select>
       </div>
       <div>
-        <label className="mb-1 block text-sm text-foreground">Renewal Date</label>
+        <label className="mb-1 block text-sm text-foreground">
+          {isTrial ? 'Trial Ends / First Charge On' : 'Renewal Date'}
+        </label>
         <input
           type="date"
           value={renewalDate}
@@ -165,6 +169,17 @@ export default function AddSubscriptionForm() {
           <option value="Cancelled">Cancelled</option>
         </select>
       </div>
+
+      <label className="flex items-center gap-2 rounded-md border border-gray-200 p-3 text-sm text-foreground">
+        <input
+          type="checkbox"
+          checked={isTrial}
+          onChange={(e) => setIsTrial(e.target.checked)}
+          className="h-4 w-4 rounded border-gray-300 text-navy focus:ring-navy"
+        />
+        This is currently a free trial — the date above is when it converts to paid
+      </label>
+
       {error && <p className="text-sm text-alert">{error}</p>}
       <button
         type="submit"

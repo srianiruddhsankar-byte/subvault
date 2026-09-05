@@ -85,6 +85,11 @@ export default function SubscriptionCard({
               Renewal overdue
             </span>
           )}
+          {sub.is_trial && (
+            <span className="inline-block rounded-full bg-[#F59E0B]/10 px-2 py-0.5 text-xs font-medium text-[#F59E0B]">
+              Trial ends {formatDate(sub.renewal_date)}
+            </span>
+          )}
         </div>
       </div>
       <div

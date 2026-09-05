@@ -117,6 +117,7 @@ export default function RenewalCalendar({ subs }: { subs: Subscription[] }) {
                           className="block whitespace-normal break-words text-[10px] font-bold leading-tight text-navy"
                         >
                           {sub.service_name}
+                          {sub.is_trial && <span className="text-[#F59E0B]"> · Trial</span>}
                         </span>
                       ))}
                       {renewals.length > 2 && (

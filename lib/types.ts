@@ -8,4 +8,5 @@ export type Subscription = {
   status: string
   category: string
   notes: string | null
+  is_trial: boolean
 }

@@ -6,6 +6,7 @@ import InsightsGrid from '@/components/InsightsGrid'
 import RenewalCalendar from '@/components/RenewalCalendar'
 import UpcomingRenewals from '@/components/UpcomingRenewals'
 import RenewalBanner from '@/components/RenewalBanner'
+import TrialEndingBanner from '@/components/TrialEndingBanner'
 import UserMenu from '@/components/UserMenu'
 import {
   calculateMonthlySpending,
@@ -61,6 +62,7 @@ export default async function DashboardPage() {
       <div className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
         <h1 className="mb-6 text-2xl font-bold text-navy">Dashboard</h1>
 
+        {subs.length > 0 && <TrialEndingBanner subs={subs} currency={currency} />}
         {subs.length > 0 && <RenewalBanner subs={subs} />}
 
         {subs.length === 0 && (

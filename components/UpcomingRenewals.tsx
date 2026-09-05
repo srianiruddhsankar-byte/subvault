@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Sparkles } from 'lucide-react'
 import type { Subscription } from '@/lib/types'
 import { formatDate, getRenewalUrgency } from '@/lib/subscription-utils'
 import { urgencyStyles } from '@/lib/renewal-styles'
@@ -31,6 +32,10 @@ export default function UpcomingRenewals({ subs }: { subs: Subscription[] }) {
                     {style.label}
                   </div>
                 ))}
+                <div className="mt-1 flex items-center gap-2 border-t border-gray-100 pt-2 text-xs text-foreground">
+                  <Sparkles className="h-3 w-3 shrink-0 text-[#F59E0B]" />
+                  Free trial converting to paid
+                </div>
               </div>
             </>
           )}
@@ -42,13 +47,41 @@ export default function UpcomingRenewals({ subs }: { subs: Subscription[] }) {
           {subs.map((sub) => {
             const urgency = getRenewalUrgency(sub.renewal_date)
             const style = urgencyStyles[urgency]
+            const Icon = style.icon
+
+            if (sub.is_trial) {
+              return (
+                <div
+                  key={sub.id}
+                  className="flex items-center justify-between rounded-lg border border-[#F59E0B] bg-[#F59E0B]/15 p-4 shadow-sm"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F59E0B]">
+                      <Sparkles className="h-3.5 w-3.5 text-white" />
+                    </span>
+                    <div>
+                      <span className="text-base font-semibold text-navy">{sub.service_name}</span>
+                      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#F59E0B]">
+                        Free Trial Ending
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-sm font-semibold text-[#F59E0B]">{formatDate(sub.renewal_date)}</span>
+                </div>
+              )
+            }
+
             return (
               <div
                 key={sub.id}
                 className={`flex items-center justify-between rounded-lg border p-4 shadow-sm ${style.border} ${style.bg}`}
               >
                 <div className="flex items-center gap-2">
-                  <span className={`h-2 w-2 shrink-0 rounded-full ${style.dot}`} />
+                  <span
+                    className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${style.dot}`}
+                  >
+                    <Icon className="h-3.5 w-3.5 text-white" />
+                  </span>
                   <span className="text-base font-semibold text-navy">{sub.service_name}</span>
                 </div>
                 <span className="text-sm text-gray-500">{formatDate(sub.renewal_date)}</span>

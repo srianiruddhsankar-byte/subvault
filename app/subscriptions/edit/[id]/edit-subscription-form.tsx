@@ -17,6 +17,7 @@ type Subscription = {
   status: string
   category: string
   notes: string | null
+  is_trial: boolean
 }
 
 export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
@@ -27,6 +28,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
   const [status, setStatus] = useState(sub.status)
   const [category, setCategory] = useState(sub.category || 'Other')
   const [notes, setNotes] = useState(sub.notes || '')
+  const [isTrial, setIsTrial] = useState(sub.is_trial || false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -86,6 +88,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
         status: status,
         category: category,
         notes: notes.trim() || null,
+        is_trial: isTrial,
         updated_at: new Date().toISOString(),
       })
       .eq('id', sub.id)
@@ -153,7 +156,9 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
         </select>
       </div>
       <div>
-        <label className="mb-1 block text-sm text-foreground">Renewal Date</label>
+        <label className="mb-1 block text-sm text-foreground">
+          {isTrial ? 'Trial Ends / First Charge On' : 'Renewal Date'}
+        </label>
         <input
           type="date"
           value={renewalDate}
@@ -173,6 +178,17 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
           <option value="Cancelled">Cancelled</option>
         </select>
       </div>
+
+      <label className="flex items-center gap-2 rounded-md border border-gray-200 p-3 text-sm text-foreground">
+        <input
+          type="checkbox"
+          checked={isTrial}
+          onChange={(e) => setIsTrial(e.target.checked)}
+          className="h-4 w-4 rounded border-gray-300 text-navy focus:ring-navy"
+        />
+        This is currently a free trial — the date above is when it converts to paid
+      </label>
+
       <div>
         <label className="mb-1 block text-sm text-foreground">Notes (optional)</label>
         <textarea
