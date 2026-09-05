@@ -6,4 +6,5 @@ export type Subscription = {
   billing_cycle: string
   renewal_date: string
   status: string
+  category: string
 }

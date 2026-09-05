@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase'
 import ServiceAutocomplete from '@/components/ServiceAutocomplete'
 import { KnownService } from '@/lib/search-services'
 import { isRenewalDateTooFarInPast } from '@/lib/subscription-utils'
+import { CATEGORIES } from '@/lib/categories'
 
 export default function AddSubscriptionForm() {
   const [serviceName, setServiceName] = useState('')
@@ -13,6 +14,7 @@ export default function AddSubscriptionForm() {
   const [billingCycle, setBillingCycle] = useState('Monthly')
   const [renewalDate, setRenewalDate] = useState('')
   const [status, setStatus] = useState('Active')
+  const [category, setCategory] = useState('Other')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -23,6 +25,9 @@ export default function AddSubscriptionForm() {
     setServiceName(service.name)
     if (service.avgPrice > 0) {
       setPrice(service.avgPrice.toString())
+    }
+    if (service.category) {
+      setCategory(service.category)
     }
   }
 
@@ -74,6 +79,7 @@ export default function AddSubscriptionForm() {
       billing_cycle: billingCycle,
       renewal_date: renewalDate,
       status: status,
+      category: category,
     })
 
     setLoading(false)
@@ -109,6 +115,20 @@ export default function AddSubscriptionForm() {
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         />
         <p className="mt-1 text-xs text-gray-400">Enter 0 if this subscription is free.</p>
+      </div>
+      <div>
+        <label className="mb-1 block text-sm text-foreground">Category</label>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+        >
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label className="mb-1 block text-sm text-foreground">Billing Cycle</label>

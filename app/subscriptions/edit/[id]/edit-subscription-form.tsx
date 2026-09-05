@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase'
 import ServiceAutocomplete from '@/components/ServiceAutocomplete'
 import { KnownService } from '@/lib/search-services'
 import { isRenewalDateTooFarInPast } from '@/lib/subscription-utils'
+import { CATEGORIES } from '@/lib/categories'
 
 type Subscription = {
   id: string
@@ -14,6 +15,7 @@ type Subscription = {
   billing_cycle: string
   renewal_date: string
   status: string
+  category: string
 }
 
 export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
@@ -22,6 +24,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
   const [billingCycle, setBillingCycle] = useState(sub.billing_cycle)
   const [renewalDate, setRenewalDate] = useState(sub.renewal_date)
   const [status, setStatus] = useState(sub.status)
+  const [category, setCategory] = useState(sub.category || 'Other')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -32,6 +35,9 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
     setServiceName(service.name)
     if (service.avgPrice > 0) {
       setPrice(service.avgPrice.toString())
+    }
+    if (service.category) {
+      setCategory(service.category)
     }
   }
 
@@ -76,6 +82,7 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
         billing_cycle: billingCycle,
         renewal_date: renewalDate,
         status: status,
+        category: category,
         updated_at: new Date().toISOString(),
       })
       .eq('id', sub.id)
@@ -113,6 +120,20 @@ export default function EditSubscriptionForm({ sub }: { sub: Subscription }) {
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
         />
         <p className="mt-1 text-xs text-gray-400">Enter 0 if this subscription is free.</p>
+      </div>
+      <div>
+        <label className="mb-1 block text-sm text-foreground">Category</label>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-navy focus:outline-none"
+        >
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label className="mb-1 block text-sm text-foreground">Billing Cycle</label>

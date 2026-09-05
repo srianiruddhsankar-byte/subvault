@@ -6,12 +6,13 @@ export type KnownService = {
   avgPrice: number;
   color: string;
   initial: string;
+  aliases?: string[];
 };
 
 /**
- * Returns known services whose name matches the query.
+ * Returns known services whose name OR any alias matches the query.
  * - Case-insensitive
- * - Matches anywhere in the name (not just the start), so "flix" still finds "Netflix"
+ * - Matches anywhere in the name/alias (not just the start), so "flix" still finds "Netflix"
  * - Limited to `limit` results so the dropdown doesn't get overwhelming
  */
 export function searchServices(query: string, limit = 6): KnownService[] {
@@ -21,15 +22,27 @@ export function searchServices(query: string, limit = 6): KnownService[] {
     return [];
   }
 
-  const matches = (knownServices as KnownService[]).filter((service) =>
-    service.name.toLowerCase().includes(trimmed)
-  );
+  const matches = (knownServices as KnownService[]).filter((service) => {
+    const nameMatches = service.name.toLowerCase().includes(trimmed);
+    const aliasMatches = service.aliases?.some((alias) =>
+      alias.toLowerCase().includes(trimmed)
+    );
+    return nameMatches || aliasMatches;
+  });
 
-  // Prioritize matches where the name STARTS with the query
+  // Prioritize matches where the name OR an alias STARTS with the query
   // (e.g. typing "net" should show "Netflix" before something like "Internet Insurance")
+  const startsWithQuery = (service: KnownService) => {
+    const nameStarts = service.name.toLowerCase().startsWith(trimmed);
+    const aliasStarts = service.aliases?.some((alias) =>
+      alias.toLowerCase().startsWith(trimmed)
+    );
+    return nameStarts || aliasStarts;
+  };
+
   matches.sort((a, b) => {
-    const aStarts = a.name.toLowerCase().startsWith(trimmed);
-    const bStarts = b.name.toLowerCase().startsWith(trimmed);
+    const aStarts = startsWithQuery(a);
+    const bStarts = startsWithQuery(b);
     if (aStarts && !bStarts) return -1;
     if (!aStarts && bStarts) return 1;
     return a.name.localeCompare(b.name);

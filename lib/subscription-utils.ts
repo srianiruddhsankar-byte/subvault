@@ -108,15 +108,6 @@ export function isRenewalDateTooFarInPast(renewalDate: string, billingCycle: str
   return date < earliestAllowed
 }
 
-import knownServices from './known-services.json'
-
-function getCategoryForService(serviceName: string): string {
-  const match = (knownServices as { name: string; category: string }[]).find(
-    (s) => s.name.toLowerCase() === serviceName.toLowerCase()
-  )
-  return match ? match.category : 'Other'
-}
-
 export function calculateMoneySaved(subs: Subscription[]): number {
   return subs
     .filter((s) => s.status === 'Cancelled')
@@ -141,7 +132,7 @@ export function getTopCategory(subs: Subscription[]) {
   const totals: Record<string, number> = {}
 
   for (const s of active) {
-    const category = getCategoryForService(s.service_name)
+    const category = s.category || 'Other'
     const monthly = s.price / monthsInCycle(s.billing_cycle)
     totals[category] = (totals[category] || 0) + monthly
   }
@@ -187,7 +178,7 @@ export function getCategoryBreakdown(subs: Subscription[]) {
   const totals: Record<string, number> = {}
 
   for (const s of active) {
-    const category = getCategoryForService(s.service_name)
+    const category = s.category || 'Other'
     const monthly = s.price / monthsInCycle(s.billing_cycle)
     totals[category] = (totals[category] || 0) + monthly
   }

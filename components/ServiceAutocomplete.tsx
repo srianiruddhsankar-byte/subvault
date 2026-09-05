@@ -15,6 +15,7 @@ export default function ServiceAutocomplete({
   onSelect,
 }: ServiceAutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Derived directly from `value` on every render — no useEffect needed,
@@ -41,7 +42,27 @@ export default function ServiceAutocomplete({
 
   function handleChange(newValue: string) {
     onChange(newValue);
+    setHighlightedIndex(0);
     setIsOpen(searchServices(newValue).length > 0);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!isOpen || results.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev + 1) % results.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev - 1 + results.length) % results.length);
+    } else if (e.key === "Enter") {
+      // A suggestion is showing — select it instead of letting the
+      // browser submit the whole form on Enter.
+      e.preventDefault();
+      handleSelect(results[highlightedIndex]);
+    } else if (e.key === "Escape") {
+      setIsOpen(false);
+    }
   }
 
   return (
@@ -50,6 +71,7 @@ export default function ServiceAutocomplete({
         type="text"
         value={value}
         onChange={(e) => handleChange(e.target.value)}
+        onKeyDown={handleKeyDown}
         onFocus={() => results.length > 0 && setIsOpen(true)}
         placeholder="e.g. Netflix, Spotify..."
         className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm
@@ -62,13 +84,15 @@ export default function ServiceAutocomplete({
           className="absolute z-20 mt-1 w-full max-h-64 overflow-y-auto
                      rounded-lg border border-gray-200 bg-white shadow-lg"
         >
-          {results.map((service) => (
+          {results.map((service, index) => (
             <li key={service.name}>
               <button
                 type="button"
                 onClick={() => handleSelect(service)}
-                className="flex w-full items-center gap-3 px-3 py-2 text-left
-                           hover:bg-gray-50 transition-colors"
+                onMouseEnter={() => setHighlightedIndex(index)}
+                className={`flex w-full items-center gap-3 px-3 py-2 text-left transition-colors ${
+                  index === highlightedIndex ? "bg-gray-50" : ""
+                }`}
               >
                 <span
                   className="flex h-8 w-8 shrink-0 items-center justify-center
